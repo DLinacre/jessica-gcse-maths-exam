@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCSE Maths Prep - Jessica Linacre</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f1117;
+            --bg-secondary: #1a1d27;
+            --bg-tertiary: #252833;
+            --bg-card: #1e2130;
+            --text-primary: #f0f2f5;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent-1: #818cf8;
+            --accent-2: #6366f1;
+            --accent-gradient: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #4f46e5 100%);
+            --success: #34d399;
+            --success-bg: rgba(52, 211, 153, 0.15);
+            --error: #f87171;
+            --error-bg: rgba(248, 113, 113, 0.15);
+            --warning: #fbbf24;
+            --border: #2d3142;
+            --glow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 20% 20%, rgba(129, 140, 248, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(99, 102, 241, 0.06) 0%, transparent 50%);
+        }
+        
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 35px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+        }
+        
+        .header-badge {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+        
+        .header .personalised {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        
+        .header .personalised p {
+            color: var(--text-secondary);
+            margin: 5px 0;
+        }
+        
+        .header .personalised strong {
+            color: var(--accent-1);
+        }
+        
+        .instructions {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+        
+        .instructions h3 {
+            color: var(--accent-1);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .instructions ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 8px;
+        }
+        
+        .instructions li {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .instructions li::before {
+            content: '→';
+            color: var(--accent-1);
+            font-weight: 600;
+        }
+        
+        .progress-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .progress-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .progress-count {
+            color: var(--accent-1);
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .progress-track {
+            background: var(--bg-tertiary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .progress-fill {
+            background: var(--accent-gradient);
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        
+        .exam-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .section {
+            background: var(--bg-secondary);
+            border-radius: 14px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+        
+        .section:hover {
+            border-color: rgba(129, 140, 248, 0.3);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+        }
+        
+        .section h2 {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .section h2 span {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.9em;
+        }
+        
+        .question {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .question:hover {
+            border-color: rgba(129, 140, 248, 0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .question.correct {
+            border-color: var(--success) !important;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--success-bg) 100%);
+        }
+        
+        .question.incorrect {
+            border-color: var(--error) !important;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--error-bg) 100%);
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .question-number {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85em;
+        }
+        
+        .question-marks {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.9em;
+            background: var(--bg-tertiary);
+            padding: 2px 10px;
+            border-radius: 4px;
+        }
+        
+        .question-text {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        .question-text strong {
+            color: var(--text-primary);
+        }
+        
+        .input-group {
+            margin-top: 10px;
+        }
+        
+        .input-label {
+            display: block;
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1em;
+            font-family: 'Inter', monospace;
+            transition: all 0.2s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+        }
+        
+        input[type="text"].correct,
+        input[type="number"].correct {
+            border-color: var(--success) !important;
+            background: var(--success-bg);
+        }
+        
+        input[type="text"].incorrect,
+        input[type="number"].incorrect {
+            border-color: var(--error) !important;
+            background: var(--error-bg);
+        }
+        
+        .explanation {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-1);
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .explanation .correct {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .explanation .incorrect {
+            color: var(--error);
+            font-weight: 600;
+        }
+        
+        .explanation .detail {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 35px 0;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            font-size: 1em;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border);
+            color: var(--text-primary);
+        }
+        
+        /* Results Screen */
+        .results {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        .results-header {
+            text-align: center;
+            padding: 40px;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .results-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient);
+        }
+        
+        .results-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+        
+        .results-header p {
+            color: var(--text-secondary);
+        }
+        
+        .score-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow);
+            position: relative;
+        }
+        
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255,255,255,0.3);
+        }
+        
+        .score-circle .percentage {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+        }
+        
+        .score-circle .label {
+            font-size: 0.75em;
+            color: rgba(255,255,255,0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .score-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .stat-card .stat-value {
+            font-size: 2em;
+            font-weight: 800;
+            color: var(--accent-1);
+        }
+        
+        .stat-card .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        
+        .grade-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.3em;
+            text-align: center;
+        }
+        
+        .grade-9 { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .grade-8 { background: linear-gradient(135deg, #818cf8, #6366f1); color: white; }
+        .grade-7 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
+        .grade-6 { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .grade-5 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #1a1d27; }
+        .grade-4 { background: linear-gradient(135deg, #f97316, #ea580c); color: white; }
+        .grade-3 { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .grade-below { background: #4b5563; color: #d1d5db; }
+        
+        .feedback-box {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .feedback-box .feedback-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .feedback-box .feedback-text {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .detailed-results {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        
+        .detailed-results h3 {
+            padding: 18px 20px;
+            background: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border);
+            font-size: 1.1em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-item:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .result-q {
+            font-weight: 600;
+            min-width: 60px;
+            color: var(--text-primary);
+        }
+        
+        .result-status {
+            font-size: 1.2em;
+        }
+        
+        .result-marks {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+        
+        .result-status.correct {
+            color: var(--success);
+        }
+        
+        .result-status.incorrect {
+            color: var(--error);
+        }
+        
+        .result-status.empty {
+            color: var(--text-muted);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-top: 30px;
+        }
+        
+        .footer a {
+            color: var(--accent-1);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+            }
+            
+            .container {
+                padding: 12px;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .section {
+                padding: 18px;
+            }
+            
+            .question {
+                padding: 15px;
+            }
+            
+            .score-display {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-badge">📚 Year 11 Revision</div>
+            <h1>GCSE Mathematics</h1>
+            <p class="subtitle">Practice Exam • 100 Marks • 2 Hours</p>
+            
+            <div class="personalised">
+                <p>👋 <strong>Hi Jessica!</strong> This is your personal practice exam.</p>
+                <p>Take your time, show your working on paper, and type your final answers below.</p>
+                <p>When you're done, hit <strong>"Mark My Paper"</strong> to see how you did! 💪</p>
+            </div>
+        </header>
+
+        <div class="instructions">
+            <h3>📝 Instructions</h3>
+            <ul>
+                <li>Answer all 32 questions across 6 sections</li>
+                <li>Show all working out on paper (you'll need it for the harder questions!)</li>
+                <li>Type your final answer in each box provided</li>
+                <li>You may use a calculator for this paper</li>
+                <li>Watch the progress bar — try to answer as many as you can!</li>
+                <li>Click "Mark My Paper" when you're finished to see your results</li>
+            </ul>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-label">Your Progress</span>
+                <span class="progress-count"><span id="progress-count">0</span> / 32 questions answered</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <form id="exam-form" class="exam-form">
+            <!-- SECTION A: NUMBER & ALGEBRA -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">🔢</div>
+                    <h2>Section A: Number & Algebra <span>(20 marks)</span></h2>
+                </div>
+                
+                <div class="question" id="q1-container">
+                    <div class="question-header">
+                        <span class="question-number">Q1</span>
+                        <span class="question-marks">[2 marks]</span>
+                    </div>
+                    <p class="question-text">Write <strong>0.0000456</strong> in standard form.</p>
+                    <div class="input-group">
+                        <label class="input-label">Your answer:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q1" placeholder="e.g. 4.56 × 10⁻⁵ or 4.56*10^-5">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q1"></div>
+                </div>
+
+                <div class="question" id="q2-container">
+                    <div class="question-header">
+                        <span class="question-number">Q2</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Calculate: <strong>(3.2 × 10⁵) ÷ (8 × 10²)</strong><br>Give your answer in standard form.</p>
+                    <div class="input-group">
+                        <label class="input-label">Your answer:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q2" placeholder="e.g. 4 × 10² or 4*10^2">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q2"></div>
+                </div>
+
+                <div class="question" id="q3-container">
+                    <div class="question-header">
+                        <span class="question-number">Q3</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">A shirt costs £45. It's reduced by 20%, then the reduced price is increased by 20%. What's the final price?</p>
+                    <div class="input-group">
+                        <label class="input-label">Final price (£):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q3" step="0.01" placeholder="e.g. 43.20">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q3"></div>
+                </div>
+
+                <div class="question" id="q4-container">
+                    <div class="question-header">
+                        <span class="question-number">Q4</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">Simplify:</p>
+                    <p class="question-text"><strong>(a)</strong> 3x + 2y - x + 5y</p>
+                    <div class="input-group">
+                        <label class="input-label">Answer (a):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q4a" placeholder="e.g. 2x + 7y">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> 4a × 3a²</p>
+                    <div class="input-group">
+                        <label class="input-label">Answer (b):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q4b" placeholder="e.g. 12a³ or 12a^3">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(c)</strong> (2x + 3)(x - 4)</p>
+                    <div class="input-group">
+                        <label class="input-label">Answer (c):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q4c" placeholder="e.g. 2x² - 5x - 12">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q4"></div>
+                </div>
+
+                <div class="question" id="q5-container">
+                    <div class="question-header">
+                        <span class="question-number">Q5</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">Solve the simultaneous equations:<br><strong>2x + 3y = 11</strong><br><strong>4x - y = 7</strong></p>
+                    <div class="input-group">
+                        <label class="input-label">x =</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q5x" step="0.001" placeholder="e.g. 2.29">
+                        </div>
+                        <label class="input-label" style="margin-top:8px;">y =</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q5y" step="0.001" placeholder="e.g. 2.14">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q5"></div>
+                </div>
+
+                <div class="question" id="q6-container">
+                    <div class="question-header">
+                        <span class="question-number">Q6</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">The nth term is <strong>3n - 5</strong>.</p>
+                    <p class="question-text"><strong>(a)</strong> Find the first 3 terms.</p>
+                    <div class="input-group">
+                        <label class="input-label">Enter 3 terms separated by commas (e.g. -2, 1, 4):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q6a" placeholder="-2, 1, 4">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> Which term has value 37?</p>
+                    <div class="input-group">
+                        <label class="input-label">Term number:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q6b" placeholder="e.g. 14">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q6"></div>
+                </div>
+            </section>
+
+            <!-- SECTION B: ALGEBRA & GRAPHS -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">📈</div>
+                    <h2>Section B: Algebra & Graphs <span>(15 marks)</span></h2>
+                </div>
+                
+                <div class="question" id="q7-container">
+                    <div class="question-header">
+                        <span class="question-number">Q7</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Factorise completely:</p>
+                    <p class="question-text"><strong>(a)</strong> x² + 7x + 12</p>
+                    <div class="input-group">
+                        <label class="input-label">Answer (a):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q7a" placeholder="e.g. (x+3)(x+4)">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> 2x² - 8</p>
+                    <div class="input-group">
+                        <label class="input-label">Answer (b):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q7b" placeholder="e.g. 2(x-2)(x+2)">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q7"></div>
+                </div>
+
+                <div class="question" id="q8-container">
+                    <div class="question-header">
+                        <span class="question-number">Q8</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">Solve: <strong>x² - 9x + 14 = 0</strong></p>
+                    <div class="input-group">
+                        <label class="input-label">Enter both solutions (e.g. 2, 7 or 2 and 7):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q8" placeholder="e.g. 2, 7">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q8"></div>
+                </div>
+
+                <div class="question" id="q9-container">
+                    <div class="question-header">
+                        <span class="question-number">Q9</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Rearrange <strong>y = 3x + 7</strong> to make x the subject.</p>
+                    <div class="input-group">
+                        <label class="input-label">x =</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q9" placeholder="e.g. (y-7)/3">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q9"></div>
+                </div>
+
+                <div class="question" id="q10-container">
+                    <div class="question-header">
+                        <span class="question-number">Q10</span>
+                        <span class="question-marks">[5 marks]</span>
+                    </div>
+                    <p class="question-text">For the graph <strong>y = x² - 4x - 5</strong>:</p>
+                    <p class="question-text"><strong>(a)</strong> Where does it cross the x-axis? (Give coordinates)</p>
+                    <div class="input-group">
+                        <label class="input-label">x-axis points:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q10a" placeholder="e.g. (-1,0) and (5,0)">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> What are the coordinates of the turning point?</p>
+                    <div class="input-group">
+                        <label class="input-label">Turning point:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q10b" placeholder="e.g. (2,-9)">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(c)</strong> What is the y-intercept?</p>
+                    <div class="input-group">
+                        <label class="input-label">y-intercept:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q10c" placeholder="e.g. (0,-5)">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q10"></div>
+                </div>
+            </section>
+
+            <!-- SECTION C: GEOMETRY & MEASURES -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">📐</div>
+                    <h2>Section C: Geometry & Measures <span>(25 marks)</span></h2>
+                </div>
+                
+                <div class="question" id="q11-container">
+                    <div class="question-header">
+                        <span class="question-number">Q11</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Triangle ABC: AB = 8 cm, BC = 11 cm, ∠ABC = 105°. Find AC. [3 s.f.]</p>
+                    <div class="input-group">
+                        <label class="input-label">AC (cm):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q11" step="0.01" placeholder="e.g. 15.2">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q11"></div>
+                </div>
+
+                <div class="question" id="q12-container">
+                    <div class="question-header">
+                        <span class="question-number">Q12</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">A circle has radius 8 cm. Find the area. [2 d.p.]</p>
+                    <div class="input-group">
+                        <label class="input-label">Area (cm²):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q12" step="0.01" placeholder="e.g. 201.06">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q12"></div>
+                </div>
+
+                <div class="question" id="q13-container">
+                    <div class="question-header">
+                        <span class="question-number">Q13</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">A right-angled triangle has sides 6 cm and 8 cm. Find the hypotenuse.</p>
+                    <div class="input-group">
+                        <label class="input-label">Hypotenuse (cm):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q13" placeholder="e.g. 10">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q13"></div>
+                </div>
+
+                <div class="question" id="q14-container">
+                    <div class="question-header">
+                        <span class="question-number">Q14</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">A 5m ladder leans against a wall. The foot is 3m from the wall. How high up the wall does it reach?</p>
+                    <div class="input-group">
+                        <label class="input-label">Height (m):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q14" placeholder="e.g. 4">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q14"></div>
+                </div>
+
+                <div class="question" id="q15-container">
+                    <div class="question-header">
+                        <span class="question-number">Q15</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">A sector has radius 6 cm and angle 60°.</p>
+                    <p class="question-text"><strong>(a)</strong> Find the arc length.</p>
+                    <div class="input-group">
+                        <label class="input-label">Arc length (cm):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q15a" step="0.01" placeholder="e.g. 6.28">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> Find the area of the sector.</p>
+                    <div class="input-group">
+                        <label class="input-label">Area (cm²):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q15b" step="0.01" placeholder="e.g. 18.85">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q15"></div>
+                </div>
+
+                <div class="question" id="q16-container">
+                    <div class="question-header">
+                        <span class="question-number">Q16</span>
+                        <span class="question-marks">[5 marks]</span>
+                    </div>
+                    <p class="question-text">A cylinder has radius 5 cm and height 12 cm.</p>
+                    <p class="question-text"><strong>(a)</strong> Find the volume. [3 s.f.]</p>
+                    <div class="input-group">
+                        <label class="input-label">Volume (cm³):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q16a" step="0.1" placeholder="e.g. 942.5">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> Find the total surface area. [3 s.f.]</p>
+                    <div class="input-group">
+                        <label class="input-label">Surface area (cm²):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q16b" step="0.1" placeholder="e.g. 534.1">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q16"></div>
+                </div>
+
+                <div class="question" id="q17-container">
+                    <div class="question-header">
+                        <span class="question-number">Q17</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">The bearing of B from A is 135°. What's the bearing of A from B?</p>
+                    <div class="input-group">
+                        <label class="input-label">Bearing (°):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q17" placeholder="e.g. 315">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q17"></div>
+                </div>
+
+                <div class="question" id="q18-container">
+                    <div class="question-header">
+                        <span class="question-number">Q18</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Similar triangles PQR and STU: PQ=8cm, QR=12cm, PR=10cm, ST=4cm. Find TU.</p>
+                    <div class="input-group">
+                        <label class="input-label">TU (cm):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q18" placeholder="e.g. 6">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q18"></div>
+                </div>
+            </section>
+
+            <!-- SECTION D: STATISTICS & PROBABILITY -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">📊</div>
+                    <h2>Section D: Statistics & Probability <span>(18 marks)</span></h2>
+                </div>
+                
+                <div class="question" id="q19-container">
+                    <div class="question-header">
+                        <span class="question-number">Q19</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">20 students did a puzzle. Times:<br>0<t≤5: 4 students | 5<t≤10: 6 | 10<t≤15: 7 | 15<t≤20: 3</p>
+                    <p class="question-text">Estimate the mean time.</p>
+                    <div class="input-group">
+                        <label class="input-label">Mean (minutes):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q19" step="0.01" placeholder="e.g. 9.75">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q19"></div>
+                </div>
+
+                <div class="question" id="q20-container">
+                    <div class="question-header">
+                        <span class="question-number">Q20</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">5 numbers have a mean of 12. Another number is added and the new mean is 13. What was added?</p>
+                    <div class="input-group">
+                        <label class="input-label">Added number:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q20" placeholder="e.g. 18">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q20"></div>
+                </div>
+
+                <div class="question" id="q21-container">
+                    <div class="question-header">
+                        <span class="question-number">Q21</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">A bag has 5 red, 3 blue, and 2 green counters.</p>
+                    <p class="question-text"><strong>(a)</strong> P(red)?</p>
+                    <div class="input-group">
+                        <label class="input-label">P(red):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q21a" placeholder="e.g. 1/2 or 0.5">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> P(not green)?</p>
+                    <div class="input-group">
+                        <label class="input-label">P(not green):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q21b" placeholder="e.g. 4/5 or 0.8">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(c)</strong> Two counters taken without replacement. P(both red)?</p>
+                    <div class="input-group">
+                        <label class="input-label">P(both red):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q21c" placeholder="e.g. 2/9 or 0.222">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q21"></div>
+                </div>
+
+                <div class="question" id="q22-container">
+                    <div class="question-header">
+                        <span class="question-number">Q22</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">Line of best fit: <strong>w = 0.8h - 60</strong> (w = weight kg, h = height cm).</p>
+                    <p class="question-text"><strong>(a)</strong> Predict weight of someone 165 cm tall.</p>
+                    <div class="input-group">
+                        <label class="input-label">Weight (kg):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q22a" placeholder="e.g. 72">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> Why can't you use this to predict weight of a 200 cm adult? (Type your answer)</p>
+                    <div class="input-group">
+                        <label class="input-label">Your explanation:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q22b" placeholder="Type your answer here...">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q22"></div>
+                </div>
+
+                <div class="question" id="q23-container">
+                    <div class="question-header">
+                        <span class="question-number">Q23</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">80 students' favourite subjects: Maths(24), English(18), Science(20), History(10), Art(8).</p>
+                    <p class="question-text">Calculate each sector angle for a pie chart.</p>
+                    <div class="input-group">
+                        <label class="input-label">Enter all 5 angles separated by commas (Maths, English, Science, History, Art):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q23" placeholder="e.g. 108, 81, 90, 45, 36">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q23"></div>
+                </div>
+            </section>
+
+            <!-- SECTION E: RATIO, PROPORTION & RATES -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">⚖️</div>
+                    <h2>Section E: Ratio, Proportion & Rates <span>(12 marks)</span></h2>
+                </div>
+                
+                <div class="question" id="q24-container">
+                    <div class="question-header">
+                        <span class="question-number">Q24</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">£84 shared between Alice and Bob in ratio 5:7. How much does Bob get?</p>
+                    <div class="input-group">
+                        <label class="input-label">Bob's share (£):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q24" step="0.01" placeholder="e.g. 49">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q24"></div>
+                </div>
+
+                <div class="question" id="q25-container">
+                    <div class="question-header">
+                        <span class="question-number">Q25</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">4 workers take 6 hours to build a wall. How long for 3 workers?</p>
+                    <div class="input-group">
+                        <label class="input-label">Time (hours):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q25" step="0.01" placeholder="e.g. 8">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q25"></div>
+                </div>
+
+                <div class="question" id="q26-container">
+                    <div class="question-header">
+                        <span class="question-number">Q26</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Map scale 1:50,000. Two towns are 7.5 cm apart on the map. Real distance in km?</p>
+                    <div class="input-group">
+                        <label class="input-label">Distance (km):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q26" step="0.01" placeholder="e.g. 3.75">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q26"></div>
+                </div>
+
+                <div class="question" id="q27-container">
+                    <div class="question-header">
+                        <span class="question-number">Q27</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">House price increased 8% to £216,000. What was the original price?</p>
+                    <div class="input-group">
+                        <label class="input-label">Original price (£):</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q27" step="0.01" placeholder="e.g. 200000">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q27"></div>
+                </div>
+
+                <div class="question" id="q28-container">
+                    <div class="question-header">
+                        <span class="question-number">Q28</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">y is inversely proportional to x. When x=3, y=12.</p>
+                    <p class="question-text"><strong>(a)</strong> Find the equation linking x and y.</p>
+                    <div class="input-group">
+                        <label class="input-label">Equation:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q28a" placeholder="e.g. y = 36/x">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> Find y when x = 5.</p>
+                    <div class="input-group">
+                        <label class="input-label">y =</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q28b" step="0.01" placeholder="e.g. 7.2">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q28"></div>
+                </div>
+
+                <div class="question" id="q29-container">
+                    <div class="question-header">
+                        <span class="question-number">Q29</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Recipe for 12 cakes: 200g flour, 100g sugar, 60g butter, 3 eggs. Scale it up to 20 cakes.</p>
+                    <p class="question-text">Enter: flour, sugar, butter, eggs (e.g. 333.33, 166.67, 100, 5)</p>
+                    <div class="input-group">
+                        <label class="input-label">Your answer:</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q29" placeholder="e.g. 333.33, 166.67, 100, 5">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q29"></div>
+                </div>
+            </section>
+
+            <!-- SECTION F: FUNCTIONS & ADVANCED ALGEBRA -->
+            <section class="section">
+                <div class="section-header">
+                    <div class="section-icon">🧮</div>
+                    <h2>Section F: Functions & Advanced Algebra <span>(10 marks)</span></h2>
+                </div>
+                
+                <div class="question" id="q30-container">
+                    <div class="question-header">
+                        <span class="question-number">Q30</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Given <strong>f(x) = 3x - 7</strong></p>
+                    <p class="question-text"><strong>(a)</strong> Find f(5).</p>
+                    <div class="input-group">
+                        <label class="input-label">f(5) =</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q30a" placeholder="e.g. 8">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> Find the inverse function f⁻¹(x).</p>
+                    <div class="input-group">
+                        <label class="input-label">f⁻¹(x) =</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q30b" placeholder="e.g. (x+7)/3">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q30"></div>
+                </div>
+
+                <div class="question" id="q31-container">
+                    <div class="question-header">
+                        <span class="question-number">Q31</span>
+                        <span class="question-marks">[4 marks]</span>
+                    </div>
+                    <p class="question-text">Given <strong>f(x) = x² + 4x - 3</strong></p>
+                    <p class="question-text"><strong>(a)</strong> Write in completed square form: (x + a)² + b</p>
+                    <div class="input-group">
+                        <label class="input-label">f(x) =</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="q31a" placeholder="e.g. (x+2)² - 7">
+                        </div>
+                    </div>
+                    <p class="question-text" style="margin-top:12px;"><strong>(b)</strong> Find the minimum value.</p>
+                    <div class="input-group">
+                        <label class="input-label">Minimum value:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q31b" placeholder="e.g. -7">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q31"></div>
+                </div>
+
+                <div class="question" id="q32-container">
+                    <div class="question-header">
+                        <span class="question-number">Q32</span>
+                        <span class="question-marks">[3 marks]</span>
+                    </div>
+                    <p class="question-text">Simplify: <strong>³√64 × 2³</strong></p>
+                    <div class="input-group">
+                        <label class="input-label">Answer:</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="q32" placeholder="e.g. 32">
+                        </div>
+                    </div>
+                    <div class="explanation" id="expl-q32"></div>
+                </div>
+            </section>
+
+            <div class="actions">
+                <button type="button" class="btn btn-primary" onclick="markExam()">
+                    📝 Mark My Paper
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetExam()">
+                    🔄 Clear All Answers
+                </button>
+            </div>
+        </form>
+
+        <!-- RESULTS -->
+        <div class="results" id="results">
+            <div class="results-header">
+                <h2>🎉 Exam Complete!</h2>
+                <p>Here's how you did, Jessica!</p>
+            </div>
+            
+            <div class="score-display">
+                <div class="score-circle">
+                    <span class="percentage" id="score-percent">0%</span>
+                    <span class="label">Score</span>
+                </div>
+                
+                <div class="score-stats">
+                    <div class="stat-card">
+                        <div class="stat-value"><span id="score-total">0</span>/100</div>
+                        <div class="stat-label">Total Marks</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">
+                            <span class="grade-badge" id="score-grade">--</span>
+                        </div>
+                        <div class="stat-label">GCSE Grade</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><span id="score-correct">0</span>/32</div>
+                        <div class="stat-label">Correct Answers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><span id="score-attempted">0</span>/32</div>
+                        <div class="stat-label">Attempted</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feedback-box">
+                <div class="feedback-icon" id="feedback-icon">🌟</div>
+                <p class="feedback-text" id="feedback-text">Amazing work!</p>
+            </div>
+            
+            <div class="detailed-results">
+                <h3>📋 Question Breakdown</h3>
+                <div id="detailed-results"></div>
+            </div>
+            
+            <div class="actions" style="margin-top: 30px;">
+                <button type="button" class="btn btn-primary" onclick="resetExam()">🔄 Try Again</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ for Jessica Linacre's GCSE revision</p>
+            <p>Questions cover: Number, Algebra, Geometry, Statistics, Ratio & Proportion, Functions</p>
+        </div>
+    </div>
+
+    <script>
+        // ============ ANSWER DATA ============
+        const answers = {
+            q1: { patterns: ["4.56×10^-5", "4.56 * 10^-5", "4.56×10⁻⁵", "4.56*10⁻⁵", "4.56e-5", "4.56 × 10^-5"], marks: 2, 
+                  display: "4.56 × 10⁻⁵",
+                  explanation: "Move decimal 5 places right → multiply by 10⁻⁵" },
+            q2: { patterns: ["4×10^2", "4 * 10^2", "4×10²", "4*10²", "4e2", "4 × 10²", "4×10^2"], marks: 3,
+                  display: "4 × 10²",
+                  explanation: "3.2 ÷ 8 = 0.4, then 10⁵ ÷ 10² = 10³. So 0.4 × 10³ = 4 × 10²" },
+            q3: { numeric: 43.2, tolerance: 0.01, marks: 3,
+                  display: "£43.20",
+                  explanation: "£45 × 0.8 = £36 (after 20% off). Then £36 × 1.2 = £43.20 (after 20% on). Note: NOT back to £45!" },
+            q4a: { patterns: ["2x+7y", "2x + 7y", "2x +7y", "2x+ 7y"], marks: 1,
+                   display: "2x + 7y",
+                   explanation: "3x - x = 2x, 2y + 5y = 7y" },
+            q4b: { patterns: ["12a^3", "12a³", "12*a^3"], marks: 1,
+                   display: "12a³",
+                   explanation: "4 × 3 = 12, a × a² = a³" },
+            q4c: { patterns: ["2x^2-5x-12", "2x^2 - 5x - 12", "2x²-5x-12", "2x² - 5x - 12"], marks: 2,
+                   display: "2x² - 5x - 12",
+                   explanation: "Expand: 2x² - 8x + 3x - 12 = 2x² - 5x - 12" },
+            q5x: { numeric: 2.286, tolerance: 0.01, marks: 2,
+                   display: "16/7 ≈ 2.29",
+                   explanation: "Multiply eq2 by 3: 12x - 3y = 21. Add to eq1: 14x = 32, x = 16/7" },
+            q5y: { numeric: 2.143, tolerance: 0.01, marks: 2,
+                   display: "15/7 ≈ 2.14",
+                   explanation: "Sub x into eq2: 4(16/7) - y = 7, so y = 64/7 - 49/7 = 15/7" },
+            q6a: { patterns: ["-2, 1, 4", "-2,1,4", "−2, 1, 4"], marks: 2,
+                   display: "-2, 1, 4",
+                   explanation: "n=1: 3-5=-2; n=2: 6-5=1; n=3: 9-5=4" },
+            q6b: { exact: 14, marks: 2,
+                   display: "14th term",
+                   explanation: "3n - 5 = 37 → 3n = 42 → n = 14" },
+            q7a: { patterns: ["(x+3)(x+4)", "(x + 3)(x + 4)", "(x+3)(x +4)", "x+3)(x+4"], marks: 1,
+                   display: "(x+3)(x+4)",
+                   explanation: "Need two numbers: multiply to 12, add to 7 → 3 and 4" },
+            q7b: { patterns: ["2(x-2)(x+2)", "2(x - 2)(x + 2)", "2(x-2)(x+2)"], marks: 2,
+                   display: "2(x-2)(x+2)",
+                   explanation: "Factor 2: 2(x²-4). Then diff of two squares: (x-2)(x+2)" },
+            q8: { patterns: ["2, 7", "2,7", "7, 2", "7,2", "2 and 7", "2 and 7", "7 and 2"], marks: 4,
+                   display: "x = 2 or x = 7",
+                   explanation: "Factorise: (x-7)(x-2) = 0, so x = 7 or x = 2" },
+            q9: { patterns: ["(y-7)/3", "(y - 7)/3", "(y-7) / 3", "y/3 - 7/3", "(y-7)÷3", "y-7/3"], marks: 3,
+                   display: "x = (y-7)/3",
+                   explanation: "y = 3x + 7 → y-7 = 3x → x = (y-7)/3" },
+            q10a: { patterns: ["(-1,0) and (5,0)", "(-1,0),(5,0)", "(-1,0) and (5,0)", "(5,0) and (-1,0)", "(-1,0),(5,0)"], marks: 2,
+                   display: "(-1, 0) and (5, 0)",
+                   explanation: "x²-4x-5=0 → (x-5)(x+1)=0 → x=5 or x=-1" },
+            q10b: { patterns: ["(2,-9)", "(2, -9)", "(2,-9)"], marks: 2,
+                   display: "(2, -9)",
+                   explanation: "x = -b/2a = 4/2 = 2. y = 4-8-5 = -9" },
+            q10c: { patterns: ["(0,-5)", "(0, -5)", "(0,-5)"], marks: 1,
+                   display: "(0, -5)",
+                   explanation: "x=0 → y = 0-0-5 = -5" },
+            q11: { numeric: 15.2, tolerance: 0.15, marks: 3,
+                   display: "15.2 cm",
+                   explanation: "Cosine rule: AC² = 64+121-176cos(105°) = 230.55, AC = √230.55 ≈ 15.2" },
+            q12: { numeric: 201.06, tolerance: 0.15, marks: 3,
+                   display: "≈ 201.06 cm²",
+                   explanation: "Area = π × 8² = 64π ≈ 201.06" },
+            q13: { exact: 10, marks: 3,
+                   display: "10 cm",
+                   explanation: "Pythagoras: c² = 36+64 = 100, c = 10" },
+            q14: { exact: 4, marks: 3,
+                   display: "4 m",
+                   explanation: "h² + 9 = 25, h² = 16, h = 4" },
+            q15a: { numeric: 6.28, tolerance: 0.15, marks: 2,
+                   display: "≈ 6.28 cm",
+                   explanation: "Arc = (60/360) × 2π(6) = 2π ≈ 6.28" },
+            q15b: { numeric: 18.85, tolerance: 0.15, marks: 2,
+                   display: "≈ 18.85 cm²",
+                   explanation: "Area = (60/360) × π(36) = 6π ≈ 18.85" },
+            q16a: { numeric: 942.5, tolerance: 2, marks: 2,
+                   display: "≈ 942 cm³",
+                   explanation: "V = π(25)(12) = 300π ≈ 942" },
+            q16b: { numeric: 534.1, tolerance: 2, marks: 3,
+                   display: "≈ 534 cm²",
+                   explanation: "SA = 2π(25) + 2π(60) = 170π ≈ 534" },
+            q17: { exact: 315, marks: 3,
+                   display: "315°",
+                   explanation: "135° + 180° = 315° (or 360-45)" },
+            q18: { exact: 6, marks: 3,
+                   display: "6 cm",
+                   explanation: "Scale = 4/8 = 1/2. TU = 12 × 1/2 = 6" },
+            q19: { numeric: 9.75, tolerance: 0.02, marks: 3,
+                   display: "9.75 min",
+                   explanation: "Midpoints: 2.5,7.5,12.5,17.5. Σfx=195. Mean=195/20=9.75" },
+            q20: { exact: 18, marks: 3,
+                   display: "18",
+                   explanation: "Original sum=60. New sum=78. Added=18" },
+            q21a: { patterns: ["1/2", "0.5", "50%", "1/2 or 0.5", "0.5 or 1/2"], marks: 1,
+                   display: "1/2 (or 0.5)",
+                   explanation: "5 red out of 10 total = 5/10 = 1/2" },
+            q21b: { patterns: ["4/5", "0.8", "80%", "8/10", "4/5 or 0.8"], marks: 1,
+                   display: "4/5 (or 0.8)",
+                   explanation: "8 non-green out of 10 = 8/10 = 4/5" },
+            q21c: { patterns: ["2/9", "0.222", "0.2222", "2/9 or 0.222", "0.222 or 2/9"], marks: 2,
+                   display: "2/9 (or ≈0.222)",
+                   explanation: "P = (5/10) × (4/9) = 20/90 = 2/9" },
+            q22a: { numeric: 72, tolerance: 0.1, marks: 2,
+                   display: "72 kg",
+                   explanation: "w = 0.8(165) - 60 = 132 - 60 = 72" },
+            q22b: { checkText: true, marks: 2,
+                   display: "Explanation needed",
+                   explanation: "Data only covers certain height range (140-180cm). 200cm is outside range (extrapolation) — relationship may not hold for adults." },
+            q23: { patterns: ["108, 81, 90, 45, 36", "108,81,90,45,36", "108, 81, 90, 45, 36"], marks: 4,
+                   display: "108°, 81°, 90°, 45°, 36°",
+                   explanation: "360×24/80=108, 360×18/80=81, 360×20/80=90, 360×10/80=45, 360×8/80=36" },
+            q24: { numeric: 49, tolerance: 0.01, marks: 3,
+                   display: "£49",
+                   explanation: "12 parts total, 1 part=£7, Bob=7×£7=£49" },
+            q25: { numeric: 8, tolerance: 0.01, marks: 3,
+                   display: "8 hours",
+                   explanation: "24 worker-hours ÷ 3 workers = 8 hours" },
+            q26: { numeric: 3.75, tolerance: 0.01, marks: 3,
+                   display: "3.75 km",
+                   explanation: "7.5 × 50000 = 375000cm = 3750m = 3.75km" },
+            q27: { numeric: 200000, tolerance: 1, marks: 3,
+                   display: "£200,000",
+                   explanation: "£216000 ÷ 1.08 = £200000" },
+            q28a: { patterns: ["y = 36/x", "y=36/x", "y = 36÷x", "y = 36/x"], marks: 1,
+                   display: "y = 36/x",
+                   explanation: "y=k/x, 12=k/3, k=36" },
+            q28b: { numeric: 7.2, tolerance: 0.01, marks: 2,
+                   display: "7.2",
+                   explanation: "y = 36/5 = 7.2" },
+            q29: { patterns: ["333.33, 166.67, 100, 5", "333.33,166.67,100,5", "333 1/3, 166 2/3, 100, 5"], marks: 3,
+                   display: "333⅓g, 166⅔g, 100g, 5 eggs",
+                   explanation: "Scale factor 20/12 = 5/3. Flour: 200×5/3, Sugar: 100×5/3, Butter: 60×5/3=100, Eggs: 3×5/3=5" },
+            q30a: { exact: 8, marks: 1,
+                   display: "8",
+                   explanation: "f(5) = 3(5)-7 = 15-7 = 8" },
+            q30b: { patterns: ["(x+7)/3", "(x + 7)/3", "(x+7)÷3", "x/3 + 7/3"], marks: 2,
+                   display: "f⁻¹(x) = (x+7)/3",
+                   explanation: "y=3x-7 → y+7=3x → x=(y+7)/3" },
+            q31a: { patterns: ["(x+2)^2 - 7", "(x+2)² - 7", "(x+2)^2-7"], marks: 2,
+                   display: "(x+2)² - 7",
+                   explanation: "x²+4x-3 = (x²+4x+4)-4-3 = (x+2)²-7" },
+            q31b: { exact: -7, marks: 2,
+                   display: "-7",
+                   explanation: "Min value is -7 (when x=-2). From (x+2)²-7, min is when squared term=0" },
+            q32: { exact: 32, marks: 3,
+                   display: "32",
+                   explanation: "³√64=4, 2³=8, 4×8=32" }
+        };
+
+        // ============ GRADES ============
+        const grades = [
+            { min: 85, grade: "9", cls: "grade-9", icon: "🌟", msg: "Outstanding! You're working at Grade 9 level — exceptional understanding!" },
+            { min: 75, grade: "8", cls: "grade-8", icon: "🎉", msg: "Excellent work! Very strong performance — just a few tweaks and you'll be flying!" },
+            { min: 65, grade: "7", cls: "grade-7", icon: "👏", msg: "Great job! Solid Grade 7 understanding. Review the mistakes and you'll do even better next time!" },
+            { min: 55, grade: "6", cls: "grade-6", icon: "👍", msg: "Good effort! Strong foundation. Focus on the topics where you lost marks." },
+            { min: 45, grade: "5", cls: "grade-5", icon: "📚", msg: "Decent start! Keep practising — you're building your skills. Identify weak areas and revise them." },
+            { min: 35, grade: "4", cls: "grade-4", icon: "💪", msg: "You're making progress! Go through the explanations and try again — you'll improve!" },
+            { min: 0, grade: "3", cls: "grade-3", icon: "🔄", msg: "Keep going! Every mistake is a learning opportunity. Work through the correct answers and try again." }
+        ];
+
+        // ============ PROGRESS ============
+        let answeredSet = new Set();
+
+        function updateProgress() {
+            const inputs = document.querySelectorAll('#exam-form input:not([type="button"])');
+            let count = 0;
+            inputs.forEach(inp => {
+                if (inp.value.trim()) {
+                    count++;
+                    answeredSet.add(inp.id);
+                }
+            });
+            document.getElementById('progress-count').textContent = count;
+            document.getElementById('progress-fill').style.width = (count / inputs.length * 100) + '%';
+        }
+
+        document.querySelectorAll('#exam-form input').forEach(inp => {
+            inp.addEventListener('input', updateProgress);
+        });
+
+        // ============ CHECKING ============
+        function checkAnswer(id, userAnswer) {
+            if (!userAnswer || !userAnswer.trim()) return null;
+            const data = answers[id];
+            if (!data) return null;
+            
+            const norm = userAnswer.trim().toLowerCase().replace(/\s+/g, ' ');
+            
+            // Pattern matching
+            for (let pat of (data.patterns || [])) {
+                if (norm === pat.toLowerCase()) return true;
+            }
+            
+            // Exact number
+            if (data.exact !== undefined) {
+                const n = parseFloat(norm);
+                if (!isNaN(n) && n === data.exact) return true;
+            }
+            
+            // Numeric with tolerance
+            if (data.numeric !== undefined) {
+                const n = parseFloat(norm);
+                if (!isNaN(n) && Math.abs(n - data.numeric) <= (data.tolerance || 0.001)) return true;
+            }
+            
+            // Text check (for Q22b)
+            if (data.checkText) {
+                const keywords = data.explanation.toLowerCase().split(' ').filter(w => w.length > 4);
+                const words = norm.split(' ');
+                let matches = 0;
+                keywords.forEach(kw => {
+                    if (words.some(w => w.includes(kw) || kw.includes(w))) matches++;
+                });
+                return matches >= 2;
+            }
+            
+            return false;
+        }
+
+        // ============ MARKING ============
+        function markExam() {
+            const inputs = document.querySelectorAll('#exam-form input:not([type="button"])');
+            let total = 0, max = 0, correct = 0, attempted = 0;
+            let html = '';
+            
+            inputs.forEach(inp => {
+                if (!answers[inp.id]) return;
+                
+                const userAns = inp.value;
+                const isAnswered = userAns.trim() !== '';
+                const isCorrect = checkAnswer(inp.id, userAns);
+                const marks = answers[inp.id].marks;
+                
+                // Get parent question container
+                const qNum = inp.id.replace(/[ab]/, '');
+                const container = document.getElementById('q' + qNum + '-container');
+                
+                if (isAnswered) attempted++;
+                
+                max += marks;
+                
+                // Visual feedback
+                if (isAnswered) {
+                    if (isCorrect) {
+                        total += marks;
+                        correct++;
+                        inp.classList.add('correct');
+                        inp.classList.remove('incorrect');
+                        if (container) {
+                            container.classList.add('correct');
+                            container.classList.remove('incorrect');
+                        }
+                    } else {
+                        inp.classList.add('incorrect');
+                        inp.classList.remove('correct');
+                        if (container) {
+                            container.classList.add('incorrect');
+                            container.classList.remove('correct');
+                        }
+                    }
+                    
+                    // Show explanation
+                    const explId = 'expl-' + inp.id;
+                    const expl = document.getElementById(explId);
+                    if (expl) {
+                        const statusClass = isCorrect ? 'correct' : 'incorrect';
+                        const statusText = isCorrect ? '✓ Correct!' : '✗ Not quite';
+                        const displayAns = answers[inp.id].display || answers[inp.id].numeric || answers[inp.id].exact;
+                        expl.innerHTML = `<span class="${statusClass}">${statusText}</span><br><strong>Correct answer:</strong> ${displayAns}<div class="detail">${answers[inp.id].explanation}</div>`;
+                        expl.classList.add('show');
+                    }
+                }
+                
+                // Detailed results row
+                let status = '<span class="result-status empty">○ Not answered</span>';
+                if (isAnswered && isCorrect) status = '<span class="result-status correct">✅ Correct</span>';
+                else if (isAnswered) status = '<span class="result-status incorrect">❌ Incorrect</span>';
+                
+                html += `
+                    <div class="result-item">
+                        <span class="result-q">Q${qNum}</span>
+                        ${status}
+                        <span class="result-marks">[${marks}]</span>
+                    </div>
+                `;
+            });
+            
+            // Calculate
+            const pct = Math.round((total / max) * 100);
+            const grade = grades.find(g => pct >= g.min) || grades[grades.length - 1];
+            
+            // Display
+            document.getElementById('score-percent').textContent = pct + '%';
+            document.getElementById('score-total').textContent = total;
+            document.getElementById('score-grade').className = 'grade-badge ' + (grade.cls || 'grade-below');
+            document.getElementById('score-grade').textContent = 'Grade ' + grade.grade;
+            document.getElementById('score-correct').textContent = correct;
+            document.getElementById('score-attempted').textContent = attempted;
+            document.getElementById('detailed-results').innerHTML = html;
+            
+            document.getElementById('feedback-icon').textContent = grade.icon;
+            document.getElementById('feedback-text').textContent = grade.msg;
+            
+            // Show results
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            
+            updateProgress();
+        }
+
+        // ============ RESET ============
+        function resetExam() {
+            document.querySelectorAll('#exam-form input').forEach(inp => {
+                inp.value = '';
+                inp.classList.remove('correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.explanation').forEach(expl => {
+                expl.innerHTML = '';
+                expl.classList.remove('show');
+            });
+            
+            document.querySelectorAll('.question').forEach(q => {
+                q.classList.remove('correct', 'incorrect');
+            });
+            
+            document.getElementById('results').classList.remove('show');
+            answeredSet.clear();
+            updateProgress();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Init
+        updateProgress();
+    </script>
+</body>
+</html>
