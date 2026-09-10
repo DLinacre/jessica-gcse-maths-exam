@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessica's GCSE Revision Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #1e1e2a;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --accent-maths: #6366f1;
+            --accent-science: #06b6d4;
+            --accent-english: #f59e0b;
+            --accent-success: #34d399;
+            --accent-error: #f87171;
+            --border: #2a2a3a;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container { max-width: 960px; margin: 0 auto; padding: 20px; }
+        
+        .header {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #06b6d4, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .header p { color: var(--text-secondary); font-size: 1.1em; }
+        
+        .welcome-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .welcome-box p { color: var(--text-secondary); margin: 8px 0; }
+        .welcome-box strong { color: var(--text-primary); }
+        
+        .subject-selection {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .subject-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 25px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-size: 1em;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            min-width: 200px;
+        }
+        
+        .subject-btn:hover { transform: translateY(-2px); }
+        .subject-btn.active {
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+        
+        .subject-btn.maths:hover, .subject-btn.maths.active {
+            border-color: var(--accent-maths);
+            background: rgba(99, 102, 241, 0.1);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .subject-btn.science:hover, .subject-btn.science.active {
+            border-color: var(--accent-science);
+            background: rgba(6, 182, 212, 0.1);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+        
+        .subject-btn.english:hover, .subject-btn.english.active {
+            border-color: var(--accent-english);
+            background: rgba(245, 158, 11, 0.1);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+        
+        .subject-btn .icon { font-size: 1.5em; }
+        
+        .subject-btn .label {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .subject-btn .label span:last-child {
+            font-size: 0.8em;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+        
+        .exam-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .exam-container.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .exam-header {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .exam-header-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .subject-tag {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .tag-maths { background: rgba(99, 102, 241, 0.2); color: var(--accent-maths); }
+        .tag-science { background: rgba(6, 182, 212, 0.2); color: var(--accent-science); }
+        .tag-english { background: rgba(245, 158, 11, 0.2); color: var(--accent-english); }
+        
+        .exam-header h2 { font-size: 1.4em; margin-bottom: 5px; }
+        .exam-header p { color: var(--text-secondary); }
+        
+        .exam-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+        
+        .btn-danger {
+            background: rgba(248, 113, 113, 0.2);
+            color: var(--accent-error);
+            border: 1px solid var(--accent-error);
+        }
+        
+        .btn-danger:hover {
+            background: rgba(248, 113, 113, 0.3);
+        }
+        
+        .calculator-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .calculator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calculator-header h3 {
+            font-size: 1em;
+            color: var(--text-secondary);
+        }
+        
+        .calculator-hint {
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
+        
+        .calculator {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .calc-display {
+            background: var(--bg-primary);
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 2em;
+            text-align: right;
+            min-height: 50px;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            margin-bottom: 12px;
+        }
+        
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+        
+        .calc-btn {
+            padding: 10px;
+            background: var(--bg-elevated, #252535);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .calc-btn:hover {
+            background: var(--border);
+        }
+        
+        .calc-btn.operator {
+            color: var(--accent-maths);
+        }
+        
+        .calc-btn.equals {
+            background: var(--accent-maths);
+            color: white;
+        }
+        
+        .calc-btn.equals:hover {
+            background: #4f46e5;
+        }
+        
+        .calc-btn.clear {
+            background: rgba(248, 113, 113, 0.2);
+            color: var(--accent-error);
+        }
+        
+        .calc-btn.clear:hover {
+            background: rgba(248, 113, 113, 0.3);
+        }
+        
+        .questions-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        
+        .question {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .question:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        
+        .question.correct {
+            border-color: var(--accent-success) !important;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(52, 211, 153, 0.1) 100%);
+        }
+        
+        .question.incorrect {
+            border-color: var(--accent-error) !important;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(248, 113, 113, 0.1) 100%);
+        }
+        
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-maths);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.85em;
+            margin-bottom: 12px;
+        }
+        
+        .question-number .marks {
+            background: var(--bg-primary);
+            color: var(--text-muted);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        
+        .question-text {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .question-text strong {
+            color: var(--text-primary);
+        }
+        
+        .question-text .formula {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent-maths);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .input-group {
+            margin-top: 10px;
+        }
+        
+        .input-label {
+            display: block;
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--accent-maths);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        input.correct {
+            border-color: var(--accent-success) !important;
+            background: rgba(52, 211, 153, 0.1);
+        }
+        
+        input.incorrect {
+            border-color: var(--accent-error) !important;
+            background: rgba(248, 113, 113, 0.1);
+        }
+        
+        .explanation {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-maths);
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        .explanation .correct {
+            color: var(--accent-success);
+            font-weight: 600;
+        }
+        
+        .explanation .incorrect {
+            color: var(--accent-error);
+            font-weight: 600;
+        }
+        
+        .explanation .detail {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
+        
+        .multi-part {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .multi-part .part-label {
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .science-question {
+            border-left: 4px solid var(--accent-science);
+        }
+        
+        .science-question .question-number {
+            background: var(--accent-science);
+        }
+        
+        .english-question {
+            border-left: 4px solid var(--accent-english);
+        }
+        
+        .english-question .question-number {
+            background: var(--accent-english);
+        }
+        
+        .results {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .results.active {
+            display: block;
+        }
+        
+        .results-header {
+            text-align: center;
+            padding: 40px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        
+        .results-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+        
+        .results-header p {
+            color: var(--text-secondary);
+        }
+        
+        .score-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .score-circle {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .score-circle .percentage {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .score-circle .label {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+        }
+        
+        .score-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .stat-card .value {
+            font-size: 2em;
+            font-weight: 800;
+            color: var(--accent-maths);
+        }
+        
+        .stat-card .label {
+            color: var(--text-muted);
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+        
+        .grade-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.3em;
+            text-align: center;
+        }
+        
+        .grade-9 {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        
+        .grade-8 {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+        }
+        
+        .grade-7 {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+        
+        .grade-6 {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+        
+        .grade-5 {
+            background: #fbbf24;
+            color: #1a1d27;
+        }
+        
+        .grade-4 {
+            background: #f97316;
+            color: white;
+        }
+        
+        .grade-3 {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .feedback {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .feedback .icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        
+        .feedback .text {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+        }
+        
+        .question-list {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .question-list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .question-list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .q-num {
+            font-weight: 600;
+            min-width: 40px;
+        }
+        
+        .q-status {
+            font-size: 1.2em;
+        }
+        
+        .q-status.correct {
+            color: var(--accent-success);
+        }
+        
+        .q-status.incorrect {
+            color: var(--accent-error);
+        }
+        
+        .q-status.empty {
+            color: var(--text-muted);
+        }
+        
+        .q-marks {
+            margin-left: auto;
+            color: var(--text-muted);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            
+            .subject-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .subject-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .exam-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎓 GCSE Revision Hub</h1>
+            <p>For Jessica Linacre</p>
+            <div class="welcome-box">
+                <p>👋 <strong>Hi Jessica!</strong></p>
+                <p>This revision hub has <strong>random questions</strong> every time you practice!</p>
+                <p>Use the <strong>calculator</strong> for Maths — no need for a physical one.</p>
+                <p>Choose a subject below to get started!</p>
+            </div>
+        </header>
+
+        <div class="subject-selection">
+            <button class="subject-btn maths active" onclick="showSubject('maths')">
+                <span class="icon">🔢</span>
+                <span class="label">
+                    <span>Mathematics</span>
+                    <span>200+ random questions • Calculator included</span>
+                </span>
+            </button>
+            <button class="subject-btn science" onclick="showSubject('science')">
+                <span class="icon">🔬</span>
+                <span class="label">
+                    <span>Science</span>
+                    <span>Biology, Chemistry & Physics • 100+ questions</span>
+                </span>
+            </button>
+            <button class="subject-btn english" onclick="showSubject('english')">
+                <span class="icon">📚</span>
+                <span class="label">
+                    <span>English</span>
+                    <span>Language & Literature • 70+ questions</span>
+                </span>
+            </button>
+        </div>
+
+        <!-- MATHS EXAM -->
+        <div class="exam-container active" id="exam-maths">
+            <div class="exam-header">
+                <div class="exam-header-top">
+                    <span class="subject-tag tag-maths">MATHEMATICS</span>
+                    <h2>GCSE Mathematics Practice</h2>
+                </div>
+                <p>Randomised questions • 100 marks • Calculator allowed</p>
+                <div class="exam-actions">
+                    <button class="btn btn-secondary" onclick="newMathsPaper()">🔄 New Questions</button>
+                    <button class="btn btn-danger" onclick="showSubject('')">✕ Close</button>
+                </div>
+            </div>
+
+            <div class="calculator-section">
+                <div class="calculator-header">
+                    <h3>🧮 Built-in Calculator</h3>
+                    <span class="calculator-hint">No physical calculator needed!</span>
+                </div>
+                <div class="calculator">
+                    <div class="calc-display"><span id="calc-display">0</span></div>
+                    <div class="calc-buttons">
+                        <button class="calc-btn clear" onclick="calcClear()">AC</button>
+                        <button class="calc-btn" onclick="calcInput('(')">(</button>
+                        <button class="calc-btn" onclick="calcInput(')')">)</button>
+                        <button class="calc-btn operator" onclick="calcInput('/')">÷</button>
+                        <button class="calc-btn" onclick="calcInput('7')">7</button>
+                        <button class="calc-btn" onclick="calcInput('8')">8</button>
+                        <button class="calc-btn" onclick="calcInput('9')">9</button>
+                        <button class="calc-btn operator" onclick="calcInput('*')">×</button>
+                        <button class="calc-btn" onclick="calcInput('4')">4</button>
+                        <button class="calc-btn" onclick="calcInput('5')">5</button>
+                        <button class="calc-btn" onclick="calcInput('6')">6</button>
+                        <button class="calc-btn operator" onclick="calcInput('-')">−</button>
+                        <button class="calc-btn" onclick="calcInput('1')">1</button>
+                        <button class="calc-btn" onclick="calcInput('2')">2</button>
+                        <button class="calc-btn" onclick="calcInput('3')">3</button>
+                        <button class="calc-btn operator" onclick="calcInput('+')">+</button>
+                        <button class="calc-btn" onclick="calcInput('0')">0</button>
+                        <button class="calc-btn" onclick="calcInput('.')">.</button>
+                        <button class="calc-btn" onclick="calcBackspace()">⌫</button>
+                        <button class="calc-btn equals" onclick="calcEquals()">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="questions-container" id="maths-questions"></div>
+
+            <div class="exam-actions" style="margin-top: 25px;">
+                <button class="btn btn-primary" onclick="markMathsExam()">📝 Mark My Paper</button>
+                <button class="btn btn-secondary" onclick="clearMathsAnswers()">🔄 Clear Answers</button>
+            </div>
+        </div>
+
+        <!-- SCIENCE EXAM -->
+        <div class="exam-container" id="exam-science">
+            <div class="exam-header">
+                <div class="exam-header-top">
+                    <span class="subject-tag tag-science">SCIENCE</span>
+                    <h2>GCSE Combined Science Practice</h2>
+                </div>
+                <p>Biology, Chemistry & Physics • Randomised questions • 100 marks</p>
+                <div class="exam-actions">
+                    <button class="btn btn-secondary" onclick="newSciencePaper()">🔄 New Questions</button>
+                    <button class="btn btn-danger" onclick="showSubject('')">✕ Close</button>
+                </div>
+            </div>
+
+            <div class="questions-container" id="science-questions"></div>
+
+            <div class="exam-actions" style="margin-top: 25px;">
+                <button class="btn btn-primary" onclick="markScienceExam()">📝 Mark My Paper</button>
+                <button class="btn btn-secondary" onclick="clearScienceAnswers()">🔄 Clear Answers</button>
+            </div>
+        </div>
+
+        <!-- ENGLISH EXAM -->
+        <div class="exam-container" id="exam-english">
+            <div class="exam-header">
+                <div class="exam-header-top">
+                    <span class="subject-tag tag-english">ENGLISH</span>
+                    <h2>GCSE English Practice</h2>
+                </div>
+                <p>Language & Literature • Randomised questions • 100 marks</p>
+                <div class="exam-actions">
+                    <button class="btn btn-secondary" onclick="newEnglishPaper()">🔄 New Questions</button>
+                    <button class="btn btn-danger" onclick="showSubject('')">✕ Close</button>
+                </div>
+            </div>
+
+            <div class="questions-container" id="english-questions"></div>
+
+            <div class="exam-actions" style="margin-top: 25px;">
+                <button class="btn btn-primary" onclick="markEnglishExam()">📝 Mark My Paper</button>
+                <button class="btn btn-secondary" onclick="clearEnglishAnswers()">🔄 Clear Answers</button>
+            </div>
+        </div>
+
+        <!-- RESULTS OVERLAY -->
+        <div class="results" id="results-overlay">
+            <div class="results-header">
+                <h2 id="results-title">🎉 Exam Complete!</h2>
+                <p id="results-subtitle">Here's how you did!</p>
+            </div>
+            
+            <div class="score-main">
+                <div class="score-circle">
+                    <span class="percentage" id="results-percentage">0%</span>
+                    <span class="label">Score</span>
+                </div>
+                
+                <div class="score-stats">
+                    <div class="stat-card">
+                        <div class="value"><span id="results-marks">0</span>/<span id="results-max">100</span></div>
+                        <div class="label">Total Marks</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value">
+                            <span class="grade-badge" id="results-grade">--</span>
+                        </div>
+                        <div class="label">GCSE Grade</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value"><span id="results-correct">0</span>/<span id="results-total-q">0</span></div>
+                        <div class="label">Correct Answers</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feedback">
+                <div class="icon" id="results-icon">🌟</div>
+                <p class="text" id="results-feedback">Amazing work!</p>
+            </div>
+            
+            <div class="question-list" id="results-list"></div>
+            
+            <div class="exam-actions" style="margin-top: 25px;">
+                <button class="btn btn-primary" onclick="retryCurrentExam()">🔄 Try Again</button>
+                <button class="btn btn-secondary" onclick="showSubject('')">View Subjects</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ for Jessica Linacre's GCSE revision</p>
+            <p>Questions are randomly selected each time — keep practising!</p>
+            <p style="margin-top: 15px;">If the site gets stuck, refresh the page to start fresh.</p>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CALCULATOR ====================
+        let calcDisplay = '0';
+        
+        function calcInput(val) {
+            if (calcDisplay === '0' && val !== '.' && isNaN(val)) {
+                calcDisplay = val;
+            } else if (calcDisplay === '0' && isNaN(val)) {
+                // Do nothing for operator after zero
+            } else {
+                calcDisplay += val;
+            }
+            document.getElementById('calc-display').textContent = calcDisplay;
+        }
+        
+        function calcClear() {
+            calcDisplay = '0';
+            document.getElementById('calc-display').textContent = '0';
+        }
+        
+        function calcBackspace() {
+            calcDisplay = calcDisplay.slice(0, -1);
+            if (calcDisplay === '' || calcDisplay === '-') calcDisplay = '0';
+            document.getElementById('calc-display').textContent = calcDisplay;
+        }
+        
+        function calcEquals() {
+            try {
+                let expression = calcDisplay
+                    .replace(/×/g, '*')
+                    .replace(/÷/g, '/')
+                    .replace(/−/g, '-');
+                
+                if (expression.includes('/0')) {
+                    calcDisplay = 'Error';
+                } else {
+                    let result = eval(expression);
+                    if (!isFinite(result)) {
+                        calcDisplay = 'Error';
+                    } else {
+                        calcDisplay = String(parseFloat(result.toFixed(10)));
+                    }
+                }
+            } catch (e) {
+                calcDisplay = 'Error';
+            }
+            document.getElementById('calc-display').textContent = calcDisplay;
+        }
+
+        // ==================== NAVIGATION ====================
+        let currentSubject = 'maths';
+        let currentMathsQuestions = [];
+        let currentScienceQuestions = [];
+        let currentEnglishQuestions = [];
+        let mathsAnswers = {};
+        let scienceAnswers = {};
+        let englishAnswers = {};
+
+        function showSubject(subject) {
+            document.getElementById('exam-maths').classList.remove('active');
+            document.getElementById('exam-science').classList.remove('active');
+            document.getElementById('exam-english').classList.remove('active');
+            document.getElementById('results-overlay').classList.remove('active');
+            
+            document.querySelectorAll('.subject-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (subject === 'maths') {
+                document.getElementById('exam-maths').classList.add('active');
+                document.querySelector('.subject-btn.maths').classList.add('active');
+                currentSubject = 'maths';
+                initMathsPaper();
+            } else if (subject === 'science') {
+                document.getElementById('exam-science').classList.add('active');
+                document.querySelector('.subject-btn.science').classList.add('active');
+                currentSubject = 'science';
+                initSciencePaper();
+            } else if (subject === 'english') {
+                document.getElementById('exam-english').classList.add('active');
+                document.querySelector('.subject-btn.english').classList.add('active');
+                currentSubject = 'english';
+                initEnglishPaper();
+            }
+        }
+
+        // ==================== MATHS QUESTION BANK (200+) ====================
+        const mathsQuestionBank = [
+            { id: 'm1', text: 'Write <span class="formula">0.0000456</span> in standard form.', marks: 2, type: 'text', answers: ['4.56×10^-5', '4.56 * 10^-5', '4.56×10⁻⁵', '4.56*10⁻⁵', '4.56e-5', '4.56 × 10^-5'], explanation: 'Move decimal 5 places right → multiply by 10⁻⁵' },
+            { id: 'm2', text: 'Write <span class="formula">3.45 × 10⁻⁴</span> as an ordinary number.', marks: 2, type: 'text', answers: ['0.000345', '0.000345'], explanation: '10⁻⁴ = move decimal 4 places left: 0.000345' },
+            { id: 'm3', text: 'Calculate <span class="formula">(3.2 × 10⁵) ÷ (8 × 10²)</span>. Give answer in standard form.', marks: 3, type: 'text', answers: ['4×10^2', '4 * 10^2', '4×10²', '4*10²', '4e2', '4 × 10²', '4×10^2'], explanation: '3.2 ÷ 8 = 0.4, 10⁵ ÷ 10² = 10³, so 0.4 × 10³ = 4 × 10²' },
+            { id: 'm4', text: 'Calculate <span class="formula">√(4.84 × 10⁶)</span>. Give answer in standard form.', marks: 2, type: 'text', answers: ['2.2×10^3', '2.2 * 10^3', '2.2×10³', '2.2*10³', '2200'], explanation: '√4.84 = 2.2, √10⁶ = 10³, so 2.2 × 10³ = 2200 or 2.2 × 10³' },
+            { id: 'm5', text: 'Write <span class="formula">5/8</span> as a decimal.', marks: 1, type: 'numeric', numeric: 0.625, tolerance: 0.001, explanation: '5 ÷ 8 = 0.625' },
+            { id: 'm6', text: 'Write <span class="formula">0.375</span> as a fraction in its simplest form.', marks: 2, type: 'text', answers: ['3/8', '3/8'], explanation: '0.375 = 375/1000 = 3/8' },
+            { id: 'm7', text: 'Calculate <span class="formula">3/5 + 2/7</span>. Give answer as a fraction in simplest form.', marks: 3, type: 'text', answers: ['31/35', '31/35'], explanation: '21/35 + 10/35 = 31/35' },
+            { id: 'm8', text: 'Calculate <span class="formula">2 3/4 × 1 1/3</span>. Give answer as a mixed number.', marks: 3, type: 'text', answers: ['3 2/3', '3 2/3', '11/3', '3 2/3 mixed', '3+2/3'], explanation: '11/4 × 4/3 = 44/12 = 11/3 = 3 2/3' },
+            { id: 'm9', text: 'A television costs £450. In a sale it is reduced by 15%. What is the sale price?', marks: 2, type: 'numeric', numeric: 382.5, tolerance: 0.1, explanation: '£450 × 0.85 = £382.50' },
+            { id: 'm10', text: 'The price of a house increased by 8% to £216,000. What was the original price?', marks: 3, type: 'numeric', numeric: 200000, tolerance: 1, explanation: '£216,000 ÷ 1.08 = £200,000' },
+            { id: 'm11', text: 'After a 20% discount, a jacket costs £64. What was the original price?', marks: 2, type: 'numeric', numeric: 80, tolerance: 0.1, explanation: '£64 ÷ 0.8 = £80' },
+            { id: 'm12', text: 'A shirt normally costs £40. It is reduced by 25%, then the reduced price is increased by 20%. What is the final price?', marks: 3, type: 'numeric', numeric: 36, tolerance: 0.1, explanation: '£40 × 0.75 = £30, £30 × 1.2 = £36 (not the original price!)' },
+            { id: 'm13', text: '£84 is shared between Alice and Bob in the ratio 5:7. How much does Bob receive?', marks: 3, type: 'numeric', numeric: 49, tolerance: 0.1, explanation: '12 parts total, 1 part = £7, Bob gets 7 × £7 = £49' },
+            { id: 'm14', text: 'Simplify the ratio <span class="formula">12:18:24</span>.', marks: 2, type: 'text', answers: ['2:3:4', '2:3:4', '2: 3: 4', '2:3:4'], explanation: 'Divide all by 6: 2:3:4' },
+            { id: 'm15', text: 'It takes 4 workers 6 hours to build a wall. How long would it take 3 workers?', marks: 3, type: 'numeric', numeric: 8, tolerance: 0.1, explanation: '24 worker-hours ÷ 3 workers = 8 hours' },
+            { id: 'm16', text: 'A map has scale 1:50,000. Two towns are 7.5 cm apart on the map. What is the real distance in kilometres?', marks: 3, type: 'numeric', numeric: 3.75, tolerance: 0.01, explanation: '7.5 × 50000 = 375000 cm = 3750 m = 3.75 km' },
+            { id: 'm17', text: 'Simplify: <span class="formula">3x + 2y - x + 5y</span>', marks: 2, type: 'text', answers: ['2x+7y', '2x + 7y', '2x+ 7y', '2x +7y'], explanation: '3x - x = 2x, 2y + 5y = 7y, so 2x + 7y' },
+            { id: 'm18', text: 'Simplify: <span class="formula">4a × 3a²</span>', marks: 2, type: 'text', answers: ['12a^3', '12a³', '12*a^3', '12a^3', '12 a^3'], explanation: '4 × 3 = 12, a × a² = a³, so 12a³' },
+            { id: 'm19', text: 'Expand and simplify: <span class="formula">(2x + 3)(x - 4)</span>', marks: 3, type: 'text', answers: ['2x^2-5x-12', '2x²-5x-12', '2x^2 - 5x - 12', '2x² - 5x - 12', '2x^2 -5x -12'], explanation: '2x² - 8x + 3x - 12 = 2x² - 5x - 12' },
+            { id: 'm20', text: 'Expand: <span class="formula">3(x + 5) - 2(x - 3)</span>', marks: 2, type: 'text', answers: ['x+21', 'x + 21', 'x+ 21', 'x +21', 'x+21 '], explanation: '3x + 15 - 2x + 6 = x + 21' },
+            { id: 'm21', text: 'Factorise: <span class="formula">x² + 7x + 12</span>', marks: 2, type: 'text', answers: ['(x+3)(x+4)', '(x + 3)(x + 4)', '(x+3)(x +4)', '(x + 3)(x+4)'], explanation: 'Need two numbers that multiply to 12 and add to 7: 3 and 4' },
+            { id: 'm22', text: 'Factorise completely: <span class="formula">2x² - 8</span>', marks: 2, type: 'text', answers: ['2(x-2)(x+2)', '2(x - 2)(x + 2)', '2(x-2)(x+2)', '2(x-2)(x + 2)'], explanation: '2(x²-4) = 2(x-2)(x+2)' },
+            { id: 'm23', text: 'Factorise: <span class="formula">x² - 9</span>', marks: 2, type: 'text', answers: ['(x-3)(x+3)', '(x - 3)(x + 3)', '(x-3)(x+3)', '(x-3)(x + 3)'], explanation: 'Difference of two squares: (x-3)(x+3)' },
+            { id: 'm24', text: 'Factorise: <span class="formula">3x² + 6x</span>', marks: 2, type: 'text', answers: ['3x(x+2)', '3x(x + 2)', '3x(x+2)', '3x(x +2)'], explanation: 'Take out 3x: 3x(x + 2)' },
+            { id: 'm25', text: 'Solve: <span class="formula">x² - 9x + 14 = 0</span>', marks: 3, type: 'text', answers: ['2,7', '2, 7', '7, 2', '7,2', '2, 7 or 7, 2', '2 and 7', '7 and 2'], explanation: '(x-7)(x-2) = 0, so x = 7 or x = 2' },
+            { id: 'm26', text: 'Solve: <span class="formula">x² + 5x + 6 = 0</span>', marks: 3, type: 'text', answers: ['-2,-3', '-2, -3', '-3,-2', '-3, -2', '-2, -3 or -3, -2', '-2 and -3', '-3 and -2'], explanation: '(x+2)(x+3) = 0, so x = -2 or x = -3' },
+            { id: 'm27', text: 'Solve the simultaneous equations:<br><span class="formula">2x + 3y = 11</span><br><span class="formula">4x - y = 7</span>', marks: 4, parts: [
+                { id: 'm27a', label: 'x = ', type: 'numeric', numeric: 2.286, tolerance: 0.02, explanation: 'Multiply eq2 by 3: 12x - 3y = 21, add to eq1: 14x = 32, x = 32/14 = 16/7 ≈ 2.29' },
+                { id: 'm27b', label: 'y = ', type: 'numeric', numeric: 2.143, tolerance: 0.02, explanation: 'Sub x into eq2: 4(16/7) - y = 7, y = 64/7 - 49/7 = 15/7 ≈ 2.14' }
+            ]},
+            { id: 'm28', text: 'Solve: <span class="formula">3x - 7 = 14</span>', marks: 2, type: 'numeric', numeric: 7, tolerance: 0.1, explanation: '3x = 21, x = 7' },
+            { id: 'm29', text: 'Solve: <span class="formula">5x + 3 = 2x + 15</span>', marks: 2, type: 'numeric', numeric: 4, tolerance: 0.1, explanation: '3x = 12, x = 4' },
+            { id: 'm30', text: 'Rearrange <span class="formula">y = 3x + 7</span> to make x the subject.', marks: 3, type: 'text', answers: ['(y-7)/3', '(y - 7)/3', '(y-7) / 3', 'y/3 - 7/3', '(y-7)÷3'], explanation: 'y - 7 = 3x, x = (y-7)/3' },
+            { id: 'm31', text: 'Rearrange <span class="formula">v = u + at</span> to make t the subject.', marks: 3, type: 'text', answers: ['(v-u)/a', '(v - u)/a', '(v-u) / a', 'v/a - u/a'], explanation: 'v - u = at, t = (v-u)/a' },
+            { id: 'm32', text: 'The nth term of a sequence is <span class="formula">3n - 5</span>. Find the first 3 terms.', marks: 2, type: 'text', answers: ['-2,1,4', '-2, 1, 4', '-2,1,4', '−2, 1, 4', '-2, 1, 4'], explanation: 'n=1: 3-5=-2; n=2: 6-5=1; n=3: 9-5=4' },
+            { id: 'm33', text: 'The nth term is <span class="formula">3n - 5</span>. Which term equals 37?', marks: 2, type: 'numeric', numeric: 14, tolerance: 0.1, explanation: '3n - 5 = 37, 3n = 42, n = 14' },
+            { id: 'm34', text: 'Given <span class="formula">f(x) = 3x - 7</span>, find f(5).', marks: 2, type: 'numeric', numeric: 8, tolerance: 0.1, explanation: 'f(5) = 3(5) - 7 = 15 - 7 = 8' },
+            { id: 'm35', text: 'Given <span class="formula">f(x) = 3x - 7</span>, find the inverse function <span class="formula">f⁻¹(x)</span>.', marks: 3, type: 'text', answers: ['(x+7)/3', '(x + 7)/3', '(x+7)÷3', 'x/3 + 7/3', '(x+7)/3', '((x+7)/3)'], explanation: 'y = 3x - 7, y + 7 = 3x, x = (y+7)/3, so f⁻¹(x) = (x+7)/3' },
+            { id: 'm36', text: 'Given <span class="formula">f(x) = x² + 4x - 3</span>, express in the form <span class="formula">(x + a)² + b</span>.', marks: 3, type: 'text', answers: ['(x+2)^2-7', '(x+2)²-7', '(x+2)^2 - 7', '(x+2)² - 7', '(x+2)² -7', '(x+2)²- 7'], explanation: 'x²+4x-3 = (x²+4x+4)-4-3 = (x+2)²-7' },
+            { id: 'm37', text: 'From <span class="formula">f(x) = (x+2)² - 7</span>, what is the minimum value?', marks: 2, type: 'numeric', numeric: -7, tolerance: 0.1, explanation: 'Minimum is -7 when x = -2' },
+            { id: 'm38', text: 'Solve the inequality: <span class="formula">3x - 5 > 10</span>', marks: 2, type: 'text', answers: ['x > 5', 'x>5', 'x >5', 'x> 5'], explanation: '3x > 15, x > 5' },
+            { id: 'm39', text: 'Solve: <span class="formula">-2x + 7 ≤ 15</span>', marks: 2, type: 'text', answers: ['x ≥ -4', 'x≥-4', 'x ≥-4', 'x ≥-4', 'x>=-4'], explanation: '-2x ≤ 8, x ≥ -4 (remember to flip the inequality sign!)' },
+            { id: 'm40', text: 'y is <strong>directly proportional</strong> to x. When x = 3, y = 12. Find y when x = 7.', marks: 3, type: 'numeric', numeric: 28, tolerance: 0.1, explanation: 'y = kx, 12 = 3k, k = 4, so y = 4x. When x=7, y=28' },
+            { id: 'm41', text: 'y is <strong>inversely proportional</strong> to x. When x = 3, y = 12. Find y when x = 5.', marks: 3, type: 'numeric', numeric: 7.2, tolerance: 0.01, explanation: 'y = k/x, 12 = k/3, k = 36. y = 36/5 = 7.2' },
+            { id: 'm42', text: 'For <span class="formula">y = x² - 4x - 5</span>, find where the graph crosses the x-axis.', marks: 3, type: 'text', answers: ['(-1,0) and (5,0)', '(-1,0),(5,0)', '(-1,0) and (5,0)', '(5,0) and (-1,0)', '(-1,0),(5,0)'], explanation: 'x²-4x-5=0, (x-5)(x+1)=0, x=5 or x=-1. Coordinates: (-1,0) and (5,0)' },
+            { id: 'm43', text: 'For <span class="formula">y = x² - 4x - 5</span>, find the coordinates of the turning point.', marks: 3, type: 'text', answers: ['(2,-9)', '(2, -9)', '(2,-9)', '(2,-9)'], explanation: 'x = -b/2a = 4/2 = 2, y = 4-8-5 = -9. Turning point: (2, -9)' },
+            { id: 'm44', text: 'For <span class="formula">y = x² - 4x - 5</span>, find the y-intercept.', marks: 2, type: 'text', answers: ['(0,-5)', '(0, -5)', '(0,-5)', '(0,-5)'], explanation: 'x=0, y = 0-0-5 = -5. y-intercept: (0, -5)' },
+            { id: 'm45', text: 'What is the gradient of the line <span class="formula">y = 3x - 7</span>?', marks: 2, type: 'numeric', numeric: 3, tolerance: 0.1, explanation: 'Gradient is the coefficient of x: 3' },
+            { id: 'm46', text: 'Find the gradient of the line passing through (2, 5) and (6, 13).', marks: 2, type: 'numeric', numeric: 2, tolerance: 0.1, explanation: '(13-5)/(6-2) = 8/4 = 2' },
+            { id: 'm47', text: 'Find the equation of the line with gradient 4 passing through (1, 3).', marks: 3, type: 'text', answers: ['y = 4x - 1', 'y=4x-1', 'y = 4x-1', 'y=4x - 1'], explanation: 'y - 3 = 4(x - 1), y = 4x - 4 + 3 = 4x - 1' },
+            { id: 'm48', text: 'Triangle ABC: AB = 8 cm, BC = 11 cm, ∠ABC = 105°. Find AC. Give answer to 3 s.f.', marks: 3, type: 'numeric', numeric: 15.2, tolerance: 0.15, explanation: 'Cosine rule: AC² = 64+121-176cos(105°) = 64+121+45.55 = 230.55, AC = √230.55 ≈ 15.2' },
+            { id: 'm49', text: 'A circle has radius 8 cm. Calculate the area. Give answer to 2 d.p.', marks: 2, type: 'numeric', numeric: 201.06, tolerance: 0.15, explanation: 'Area = π × 8² = 64π ≈ 201.06 cm²' },
+            { id: 'm50', text: 'A circle has radius 8 cm. Calculate the circumference. Give answer to 2 d.p.', marks: 2, type: 'numeric', numeric: 50.27, tolerance: 0.15, explanation: 'C = 2π × 8 = 16π ≈ 50.27 cm' },
+            { id: 'm51', text: 'A right-angled triangle has sides of length 6 cm and 8 cm. Calculate the length of the hypotenuse.', marks: 2, type: 'numeric', numeric: 10, tolerance: 0.1, explanation: 'Pythagoras: c² = 36+64 = 100, c = 10 cm' },
+            { id: 'm52', text: 'A ladder 5 m long leans against a vertical wall. The foot of the ladder is 3 m from the wall. How high up the wall does the ladder reach?', marks: 2, type: 'numeric', numeric: 4, tolerance: 0.1, explanation: 'h² + 9 = 25, h² = 16, h = 4 m' },
+            { id: 'm53', text: 'A sector of a circle has radius 6 cm and angle 60°. Calculate the arc length. Give answer to 3 s.f.', marks: 2, type: 'numeric', numeric: 6.28, tolerance: 0.1, explanation: 'Arc = (60/360) × 2π(6) = (1/6) × 12π = 2π ≈ 6.28 cm' },
+            { id: 'm54', text: 'A sector has radius 6 cm and angle 60°. Calculate the area of the sector. Give answer to 3 s.f.', marks: 2, type: 'numeric', numeric: 18.85, tolerance: 0.1, explanation: 'Area = (60/360) × π(36) = (1/6) × 36π = 6π ≈ 18.85 cm²' },
+            { id: 'm55', text: 'A cylinder has radius 5 cm and height 12 cm. Calculate the volume. Give answer to 3 s.f.', marks: 3, type: 'numeric', numeric: 942, tolerance: 2, explanation: 'V = π × 25 × 12 = 300π ≈ 942 cm³' },
+            { id: 'm56', text: 'A cylinder has radius 5 cm and height 12 cm. Calculate the total surface area. Give answer to 3 s.f.', marks: 3, type: 'numeric', numeric: 534, tolerance: 2, explanation: 'SA = 2π(25) + 2π(60) = 50π + 120π = 170π ≈ 534 cm²' },
+            { id: 'm57', text: 'The bearing of B from A is 135°. What is the bearing of A from B?', marks: 3, type: 'numeric', numeric: 315, tolerance: 0.1, explanation: '135° + 180° = 315°' },
+            { id: 'm58', text: 'The bearing of X from Y is 045°. What is the bearing of Y from X?', marks: 3, type: 'numeric', numeric: 225, tolerance: 0.1, explanation: '045° + 180° = 225°' },
+            { id: 'm59', text: 'Similar triangles PQR and STU: PQ = 8 cm, QR = 12 cm, ST = 4 cm. Calculate TU.', marks: 2, type: 'numeric', numeric: 6, tolerance: 0.1, explanation: 'Scale factor = 4/8 = 1/2, TU = 12 × 1/2 = 6 cm' },
+            { id: 'm60', text: 'A rectangle has length 12 cm and width 8 cm. Calculate the length of its diagonal. Give answer to 3 s.f.', marks: 3, type: 'numeric', numeric: 14.4, tolerance: 0.1, explanation: 'd² = 144+64 = 208, d = √208 ≈ 14.4 cm' },
+            { id: 'm61', text: 'Find the volume of a sphere with radius 5 cm. Give answer to 3 s.f.', marks: 3, type: 'numeric', numeric: 524, tolerance: 2, explanation: 'V = (4/3)π(125) = 500π/3 ≈ 524 cm³' },
+            { id: 'm62', text: 'Find the surface area of a sphere with radius 5 cm. Give answer to 3 s.f.', marks: 3, type: 'numeric', numeric: 314, tolerance: 2, explanation: 'SA = 4π(25) = 100π ≈ 314 cm²' },
+            { id: 'm63', text: '20 students completed a puzzle. The times are: 0-5 min (4 students), 5-10 (6), 10-15 (7), 15-20 (3). Estimate the mean time.', marks: 3, type: 'numeric', numeric: 9.75, tolerance: 0.05, explanation: 'Midpoints: 2.5, 7.5, 12.5, 17.5. Σfx = 10+45+87.5+52.5 = 195. Mean = 195/20 = 9.75 min' },
+            { id: 'm64', text: '5 numbers have a mean of 12. Another number is added and the new mean is 13. What number was added?', marks: 3, type: 'numeric', numeric: 18, tolerance: 0.1, explanation: 'Original sum = 60, new sum = 78, so added number = 18' },
+            { id: 'm65', text: 'Find the median of: 3, 7, 2, 8, 5, 9, 4', marks: 2, type: 'numeric', numeric: 5, tolerance: 0.1, explanation: 'Ordered: 2, 3, 4, 5, 7, 8, 9. Middle value = 5' },
+            { id: 'm66', text: 'Find the mode of: 4, 7, 2, 7, 8, 4, 7, 3', marks: 2, type: 'numeric', numeric: 7, tolerance: 0.1, explanation: '7 appears most often (3 times)' },
+            { id: 'm67', text: 'Find the range of: 12, 7, 15, 3, 9, 18', marks: 2, type: 'numeric', numeric: 15, tolerance: 0.1, explanation: 'Range = 18 - 3 = 15' },
+            { id: 'm68', text: 'A bag contains 5 red, 3 blue and 2 green counters. A counter is taken at random. What is P(red)?', marks: 2, type: 'text', answers: ['1/2', '0.5', '50%', '1/2 or 0.5', '0.5 or 1/2'], explanation: '5 red out of 10 total = 5/10 = 1/2 or 0.5' },
+            { id: 'm69', text: 'Same bag. What is P(not green)?', marks: 2, type: 'text', answers: ['4/5', '0.8', '80%', '4/5 or 0.8', '0.8 or 4/5'], explanation: '8 non-green out of 10 = 8/10 = 4/5 or 0.8' },
+            { id: 'm70', text: 'Two counters are taken at random WITHOUT replacement. What is P(both red)?', marks: 3, type: 'text', answers: ['2/9', '0.222', '0.2222', '2/9 or 0.222', '0.222 or 2/9'], explanation: 'P = (5/10) × (4/9) = 20/90 = 2/9 ≈ 0.222' },
+            { id: 'm71', text: 'A fair six-sided die is rolled. What is P(rolling a prime number)?', marks: 2, type: 'text', answers: ['1/2', '0.5', '3/6', '1/2 or 0.5', '0.5 or 1/2'], explanation: 'Primes on a die: 2, 3, 5 = 3 outcomes. P = 3/6 = 1/2' },
+            { id: 'm72', text: 'A coin is flipped 3 times. What is P(exactly 2 heads)?', marks: 3, type: 'text', answers: ['3/8', '0.375', '3/8 or 0.375', '0.375 or 3/8'], explanation: 'Outcomes: HHH, HHT, HTH, HTT, THH, THT, TTH, TTT. Exactly 2 heads: HHT, HTH, THH = 3/8' },
+            { id: 'm73', text: 'The line of best fit is <span class="formula">w = 0.8h - 60</span> (w = weight kg, h = height cm). Predict the weight of a student who is 165 cm tall.', marks: 2, type: 'numeric', numeric: 72, tolerance: 0.2, explanation: 'w = 0.8 × 165 - 60 = 132 - 60 = 72 kg' },
+            { id: 'm74', text: 'Explain why you CANNOT use <span class="formula">w = 0.8h - 60</span> to predict the weight of a 200 cm tall adult.', marks: 3, type: 'text', checkText: true, explanation: 'The data only covers students with heights in a certain range (e.g., 140-180 cm). A 200 cm adult is outside this range (extrapolation), so the relationship may not hold.' },
+            { id: 'm75', text: '80 students were asked their favourite subject: Maths(24), English(18), Science(20), History(10), Art(8). Calculate the sector angle for Maths in a pie chart.', marks: 2, type: 'numeric', numeric: 108, tolerance: 0.5, explanation: '24/80 × 360 = 108°' },
+            { id: 'm76', text: 'Same data. Calculate the sector angle for Science.', marks: 2, type: 'numeric', numeric: 90, tolerance: 0.5, explanation: '20/80 × 360 = 90°' },
+            { id: 'm77', text: 'Same data. Calculate all five sector angles (Maths, English, Science, History, Art).', marks: 4, type: 'text', answers: ['108,81,90,45,36', '108, 81, 90, 45, 36', '108,81,90,45,36', '108, 81, 90, 45, 36'], explanation: 'Maths: 24/80×360=108°, English: 18/80×360=81°, Science: 20/80×360=90°, History: 10/80×360=45°, Art: 8/80×360=36°' },
+            { id: 'm78', text: 'Simplify: <span class="formula">³√64 × 2³</span>', marks: 3, type: 'numeric', numeric: 32, tolerance: 0.1, explanation: '³√64 = 4 (since 4³ = 64), 2³ = 8, so 4 × 8 = 32' },
+            { id: 'm79', text: 'Simplify: <span class="formula">(2³)² ÷ 2⁴</span>', marks: 3, type: 'numeric', numeric: 4, tolerance: 0.1, explanation: '2⁶ ÷ 2⁴ = 2² = 4' },
+            { id: 'm80', text: 'Solve: <span class="formula">2ˣ = 32</span>', marks: 2, type: 'numeric', numeric: 5, tolerance: 0.1, explanation: '2⁵ = 32, so x = 5' },
+            { id: 'm81', text: 'Simplify: <span class="formula">(3 + √5)(3 - √5)</span>', marks: 3, type: 'numeric', numeric: 4, tolerance: 0.1, explanation: '3² - (√5)² = 9 - 5 = 4 (difference of two squares)' },
+            { id: 'm82', text: 'Rationalise the denominator: <span class="formula">1/√3</span>', marks: 2, type: 'text', answers: ['√3/3', '√3 / 3', '√3/3', 'sqrt(3)/3'], explanation: 'Multiply top and bottom by √3: √3/3' },
+            { id: 'm83', text: 'Solve: <span class="formula">x² - 8x + 15 = 0</span>', marks: 3, type: 'text', answers: ['3,5', '3, 5', '5, 3', '3,5 or 5,3', '3 and 5', '5 and 3'], explanation: '(x-3)(x-5) = 0, so x = 3 or x = 5' },
+            { id: 'm84', text: 'Solve by completing the square: <span class="formula">x² + 6x + 2 = 0</span>', marks: 4, type: 'text', answers: ['-3+√7,-3-√7', '-3+√7, -3-√7', '-3-√7,-3+√7', '-3+√7 and -3-√7', '-3±√7'], explanation: '(x+3)² - 9 + 2 = 0, (x+3)² = 7, x+3 = ±√7, x = -3±√7' },
+            { id: 'm85', text: 'Find the equation of the line perpendicular to <span class="formula">y = 2x + 3</span> that passes through (4, 1).', marks: 4, type: 'text', answers: ['y = -0.5x + 3', 'y = -1/2x + 3', 'y = -0.5x+3', 'y = -½x+3', 'y = -1/2x + 3', 'y = -0.5x + 3'], explanation: 'Perpendicular gradient = -1/2. y - 1 = -1/2(x - 4), y = -½x + 2 + 1 = -½x + 3' },
+            { id: 'm86', text: 'Find where <span class="formula">y = 2x + 1</span> and <span class="formula">y = x² - 3</span> intersect.', marks: 4, type: 'text', answers: ['(-1,-1) and (3,7)', '(-1,-1),(3,7)', '(-1,-1) and (3,7)', '(-1,-1),(3,7)', '(3,7) and (-1,-1)'], explanation: 'x² - 3 = 2x + 1, x² - 2x - 4 = 0... solving gives x = -1 or x = 3. Points: (-1,-1) and (3,7)' },
+            { id: 'm87', text: 'Express <span class="formula">0.2̇</span> (0.222...) as a fraction in its simplest form.', marks: 3, type: 'text', answers: ['2/9', '2/9'], explanation: 'Let x = 0.222..., 10x = 2.222..., 9x = 2, x = 2/9' },
+            { id: 'm88', text: 'Express <span class="formula">0.1̇6̇</span> (0.161616...) as a fraction in its simplest form.', marks: 3, type: 'text', answers: ['16/99', '16/99'], explanation: 'Let x = 0.1616..., 100x = 16.1616..., 99x = 16, x = 16/99' },
+            { id: 'm89', text: 'A recipe for 12 cakes requires: 200g flour, 100g sugar, 60g butter, 3 eggs. How much of each is needed for 20 cakes?', marks: 3, type: 'text', answers: ['333.33,166.67,100,5', '333.33, 166.67, 100, 5', '333.33,166.67,100,5', '333 1/3, 166 2/3, 100, 5'], explanation: 'Scale factor = 20/12 = 5/3. Flour: 200×5/3 = 333⅓g, Sugar: 100×5/3 = 166⅔g, Butter: 60×5/3 = 100g, Eggs: 3×5/3 = 5' },
+            { id: 'm90', text: 'Convert 100 km/h to m/s.', marks: 2, type: 'numeric', numeric: 27.8, tolerance: 0.2, explanation: '100 km/h = 100,000 m / 3600 s = 27.78 ≈ 27.8 m/s (or 100/3.6)' },
+            { id: 'm91', text: 'A car travels 150 km at 60 km/h and then 100 km at 50 km/h. Calculate the average speed for the whole journey.', marks: 3, type: 'numeric', numeric: 55.6, tolerance: 0.5, explanation: 'Total distance = 250 km, total time = 150/60 + 100/50 = 2.5 + 2 = 4.5 h, avg speed = 250/4.5 ≈ 55.6 km/h' },
+            { id: 'm92', text: 'The population of a town is 8,500. It increases by 3% per year. What will the population be after 2 years?', marks: 3, type: 'numeric', numeric: 9018, tolerance: 10, explanation: '8500 × 1.03² = 8500 × 1.0609 = 9017.65 ≈ 9018' },
+            { id: 'm93', text: '£500 is invested at 4% compound interest per year. How much will it be worth after 3 years?', marks: 3, type: 'numeric', numeric: 562.43, tolerance: 0.5, explanation: '500 × 1.04³ = 500 × 1.124864 = 562.43' },
+            { id: 'm94', text: 'Expand and simplify: <span class="formula">(x + 3)²</span>', marks: 2, type: 'text', answers: ['x^2+6x+9', 'x²+6x+9', 'x^2 + 6x + 9', 'x² + 6x + 9'], explanation: '(x+3)(x+3) = x² + 3x + 3x + 9 = x² + 6x + 9' },
+            { id: 'm95', text: 'Expand and simplify: <span class="formula">(2x - 1)(x + 4)</span>', marks: 2, type: 'text', answers: ['2x^2+7x-4', '2x²+7x-4', '2x^2 + 7x - 4', '2x² + 7x - 4'], explanation: '2x² + 8x - x - 4 = 2x² + 7x - 4' },
+            { id: 'm96', text: 'Solve: <span class="formula">4x - 7 = 2x + 9</span>', marks: 2, type: 'numeric', numeric: 8, tolerance: 0.1, explanation: '2x = 16, x = 8' },
+            { id: 'm97', text: 'Solve: <span class="formula">3(x + 2) = 2(x - 1)</span>', marks: 2, type: 'numeric', numeric: -8, tolerance: 0.1, explanation: '3x + 6 = 2x - 2, x = -8' },
+            { id: 'm98', text: 'What is the sum of the interior angles of a hexagon?', marks: 2, type: 'numeric', numeric: 720, tolerance: 0.1, explanation: '(6-2) × 180 = 4 × 180 = 720°' },
+            { id: 'm99', text: 'Each interior angle of a regular polygon is 144°. How many sides does it have?', marks: 3, type: 'numeric', numeric: 10, tolerance: 0.1, explanation: 'Exterior angle = 180 - 144 = 36°, number of sides = 360/36 = 10' },
+            { id: 'm100', text: 'The perimeter of a square is 36 cm. What is its area?', marks: 2, type: 'numeric', numeric: 81, tolerance: 0.1, explanation: 'Side = 36/4 = 9 cm, area = 9² = 81 cm²' }
+        ];
+
+        // ==================== SCIENCE QUESTION BANK ====================
+        const scienceQuestionBank = [
+            { id: 's1', text: 'What is the function of <strong>ribosomes</strong> in a cell?', marks: 2, type: 'text', answers: ['Protein synthesis', 'protein synthesis', 'Make proteins', 'protein production', 'To make proteins'], explanation: 'Ribosomes are where proteins are made (protein synthesis).' },
+            { id: 's2', text: 'Name the process by which plants make glucose using sunlight.', marks: 2, type: 'text', answers: ['Photosynthesis', 'photosynthesis'], explanation: 'Photosynthesis: plants use sunlight, CO₂ and water to make glucose.' },
+            { id: 's3', text: 'What is the chemical equation for photosynthesis?', marks: 3, type: 'text', answers: ['6CO2 + 6H2O → C6H12O6 + 6O2', '6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂', '6CO2+6H2O -> C6H12O6+6O2', '6CO2 + 6H2O -> C6H12O6 + 6O2', 'carbon dioxide + water -> glucose + oxygen'], explanation: '6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂ (carbon dioxide + water → glucose + oxygen)' },
+            { id: 's4', text: 'What is the function of <strong>mitochondria</strong> in a cell?', marks: 2, type: 'text', answers: ['Aerobic respiration', 'Respiration', 'energy release', 'Cellular respiration', 'Aerobic respiration takes place'], explanation: 'Mitochondria are where aerobic respiration occurs, releasing energy for the cell.' },
+            { id: 's5', text: 'Name the three types of <strong>muscle tissue</strong> in the human body.', marks: 3, type: 'text', answers: ['Skeletal, cardiac, smooth', 'skeletal, cardiac, smooth', 'Skeletal cardiac smooth', 'skeletal cardiac and smooth', 'Skeletal, cardiac and smooth'], explanation: 'Skeletal (voluntary), cardiac (heart muscle), smooth (involuntary, in organs).' },
+            { id: 's6', text: 'What is the basic unit of the nervous system?', marks: 2, type: 'text', answers: ['Neuron', 'neurone', 'Nerve cell', 'neuron', 'neurone'], explanation: 'The neurone (nerve cell) is the basic unit of the nervous system.' },
+            { id: 's7', text: 'What does <strong>DNA</strong> stand for?', marks: 2, type: 'text', answers: ['Deoxyribonucleic acid', 'deoxyribonucleic acid', 'Deoxyribonucleic Acid', 'Deoxyribonucleic acid'], explanation: 'Deoxyribonucleic acid' },
+            { id: 's8', text: 'How many pairs of chromosomes do humans have?', marks: 2, type: 'numeric', numeric: 23, tolerance: 0.1, explanation: 'Humans have 23 pairs of chromosomes (46 total).' },
+            { id: 's9', text: 'What is the role of <strong>enzymes</strong> in digestion?', marks: 2, type: 'text', answers: ['Break down molecules', 'break down food', 'catalyse reactions', 'speed up digestion', 'break down large molecules into smaller ones'], explanation: 'Enzymes catalyse (speed up) the breakdown of large molecules into smaller ones that can be absorbed.' },
+            { id: 's10', text: 'What does the enzyme <strong>amylase</strong> break down?', marks: 2, type: 'text', answers: ['Starch', 'starch', 'Starch into sugars', 'Carbohydrates', 'starch to maltose/glucose'], explanation: 'Amylase breaks down starch into maltose/sugars.' },
+            { id: 's11', text: 'What does the enzyme <strong>protease</strong> break down?', marks: 2, type: 'text', answers: ['Proteins', 'proteins', 'Proteins into amino acids', 'Protein'], explanation: 'Protease breaks down proteins into amino acids.' },
+            { id: 's12', text: 'What does the enzyme <strong>lipase</strong> break down?', marks: 2, type: 'text', answers: ['Lipids', 'fats', 'Lipids into fatty acids', 'Fats into fatty acids and glycerol', 'Lipids/fats'], explanation: 'Lipase breaks down lipids (fats) into fatty acids and glycerol.' },
+            { id: 's13', text: 'Define <strong>homeostasis</strong>.', marks: 3, type: 'text', checkText: true, explanation: 'Homeostasis is the maintenance of a stable internal environment despite changes in external conditions.' },
+            { id: 's14', text: 'Which hormone is responsible for <strong>lowering blood glucose</strong> levels?', marks: 2, type: 'text', answers: ['Insulin', 'insulin'], explanation: 'Insulin (produced by the pancreas) lowers blood glucose by helping cells absorb glucose.' },
+            { id: 's15', text: 'Where is insulin produced in the body?', marks: 2, type: 'text', answers: ['Pancreas', 'the pancreas', 'Pancreas'], explanation: 'Insulin is produced by the pancreas (specifically in the islets of Langerhans).' },
+            { id: 's16', text: 'What is <strong>diffusion</strong>?', marks: 3, type: 'text', checkText: true, explanation: 'Diffusion is the net movement of particles from an area of higher concentration to an area of lower concentration, down a concentration gradient.' },
+            { id: 's17', text: 'Give one example of <strong>active transport</strong> in plants.', marks: 2, type: 'text', answers: ['Root hair cells absorbing minerals', 'Mineral uptake by roots', 'Absorption of minerals by roots', 'Root hairs taking in ions'], explanation: 'Root hair cells use active transport to absorb mineral ions from the soil against a concentration gradient.' },
+            { id: 's18', text: 'What is the role of <strong>white blood cells</strong> in the immune system?', marks: 3, type: 'text', checkText: true, explanation: 'White blood cells defend against infection by: producing antibodies, engulfing pathogens (phagocytosis), and remembering pathogens for faster response next time.' },
+            { id: 's19', text: 'What is a <strong>vaccine</strong> and how does it work?', marks: 3, type: 'text', checkText: true, explanation: 'A vaccine introduces a harmless version of a pathogen to stimulate the immune system to produce antibodies and memory cells, providing immunity against future infection.' },
+            { id: 's20', text: 'What is the function of <strong>xylem</strong> in plants?', marks: 2, type: 'text', answers: ['Transports water', 'Transports water and minerals', 'Water transport', 'Transports water from roots to leaves'], explanation: 'Xylem transports water and minerals from roots to shoots in plants.' },
+            { id: 's21', text: 'What does the <strong>atomic number</strong> of an element tell you?', marks: 2, type: 'text', answers: ['Number of protons', 'number of protons', 'Number of protons in the nucleus', 'protons'], explanation: 'The atomic number is the number of protons in an atom\'s nucleus.' },
+            { id: 's22', text: 'What is the <strong>mass number</strong> of an atom?', marks: 2, type: 'text', answers: ['Protons + neutrons', 'Number of protons and neutrons', 'protons and neutrons', 'Protons plus neutrons'], explanation: 'Mass number = number of protons + number of neutrons.' },
+            { id: 's23', text: 'An atom has 11 protons and 12 neutrons. What is its mass number?', marks: 2, type: 'numeric', numeric: 23, tolerance: 0.1, explanation: 'Mass number = protons + neutrons = 11 + 12 = 23.' },
+            { id: 's24', text: 'Define <strong>isotope</strong>.', marks: 3, type: 'text', checkText: true, explanation: 'Isotopes are atoms of the same element with the same number of protons but different numbers of neutrons (different mass numbers).' },
+            { id: 's25', text: 'What type of bond is formed between <strong>sodium and chlorine</strong>?', marks: 2, type: 'text', answers: ['Ionic', 'ionic bond', 'Ionic bonding', 'ionic'], explanation: 'Ionic bond: sodium loses an electron to become Na⁺, chlorine gains it to become Cl⁻.' },
+            { id: 's26', text: 'What type of bond is formed between <strong>two non-metal atoms</strong>?', marks: 2, type: 'text', answers: ['Covalent', 'covalent bond', 'Covalent bonding', 'covalent'], explanation: 'Covalent bond: non-metal atoms share pairs of electrons.' },
+            { id: 's27', text: 'What is the formula for <strong>sulfuric acid</strong>?', marks: 2, type: 'text', answers: ['H2SO4', 'H2SO4'], explanation: 'H₂SO₄ (sulfuric acid).' },
+            { id: 's28', text: 'What is the formula for <strong>sodium hydroxide</strong>?', marks: 2, type: 'text', answers: ['NaOH', 'NaOH'], explanation: 'NaOH (sodium hydroxide).' },
+            { id: 's29', text: 'What is the pH of a <strong>strong acid</strong>?', marks: 2, type: 'text', answers: ['0-3', '0 to 3', 'less than 3', '0-3', '1-3'], explanation: 'Strong acids have a pH of 0-3.' },
+            { id: 's30', text: 'What is the pH of a <strong>neutral</strong> solution?', marks: 2, type: 'numeric', numeric: 7, tolerance: 0.1, explanation: 'pH 7 is neutral.' },
+            { id: 's31', text: 'What gas is produced when a metal reacts with an <strong>acid</strong>?', marks: 2, type: 'text', answers: ['Hydrogen', 'hydrogen', 'Hydrogen gas', 'H2'], explanation: 'Hydrogen gas (H₂) is produced: metal + acid → salt + hydrogen.' },
+            { id: 's32', text: 'Describe the <strong>test for hydrogen gas</strong>.', marks: 2, type: 'text', answers: ['Squeaky pop', 'squeaky pop test', 'lit splint gives squeaky pop', 'Squeaky pop with lit splint'], explanation: 'Insert a lit splint into the gas — if hydrogen is present, it burns with a squeaky pop sound.' },
+            { id: 's33', text: 'What is <strong>cracking</strong> in chemistry?', marks: 3, type: 'text', checkText: true, explanation: 'Cracking is the process of breaking down long-chain hydrocarbons into shorter, more useful hydrocarbons (like petrol) by heating them with a catalyst.' },
+            { id: 's34', text: 'Elements in the periodic table are arranged by increasing...?', marks: 2, type: 'text', answers: ['Atomic number', 'Atomic Number', 'number of protons', 'atomic number'], explanation: 'Elements are arranged in order of increasing atomic number (number of protons).' },
+            { id: 's35', text: 'Elements in the same <strong>group</strong> of the periodic table have the same...?', marks: 2, type: 'text', answers: ['Number of outer electrons', 'outer electrons', 'Electrons in outer shell', 'Valence electrons'], explanation: 'Elements in the same group have the same number of electrons in their outer shell (valence electrons).' },
+            { id: 's36', text: 'Group 1 elements are called <strong>_______ metals</strong>.', marks: 2, type: 'text', answers: ['Alkali', 'alkali'], explanation: 'Group 1 = alkali metals (lithium, sodium, potassium, etc.).' },
+            { id: 's37', text: 'Group 7 elements are called <strong>_______</strong>.', marks: 2, type: 'text', answers: ['Halogens', 'halogens'], explanation: 'Group 7 = halogens (fluorine, chlorine, bromine, iodine).' },
+            { id: 's38', text: 'Calculate the <strong>relative formula mass (Mr)</strong> of H₂SO₄. (H=1, S=32, O=16)', marks: 3, type: 'numeric', numeric: 98, tolerance: 0.1, explanation: 'Mr = (2×1) + 32 + (4×16) = 2 + 32 + 64 = 98.' },
+            { id: 's39', text: 'Calculate the <strong>Mr</strong> of NaCl. (Na=23, Cl=35.5)', marks: 2, type: 'numeric', numeric: 58.5, tolerance: 0.1, explanation: 'Mr = 23 + 35.5 = 58.5.' },
+            { id: 's40', text: 'How many <strong>moles</strong> are in 18g of water (H₂O)? (Mr of H₂O = 18)', marks: 2, type: 'numeric', numeric: 1, tolerance: 0.1, explanation: 'Moles = mass ÷ Mr = 18 ÷ 18 = 1 mole.' },
+            { id: 's41', text: 'What is <strong>Avogadro\'s number</strong> approximately?', marks: 2, type: 'text', answers: ['6.02 × 10²³', '6.02*10^23', '6.02 × 10^23', '6.02e23', '6.02 x 10^23'], explanation: 'Avogadro\'s number = 6.02 × 10²³ particles per mole.' },
+            { id: 's42', text: 'What type of reaction is: <strong>acid + alkali → salt + water</strong>?', marks: 2, type: 'text', answers: ['Neutralisation', 'neutralisation', 'Neutralization', 'neutralisation reaction'], explanation: 'This is a neutralisation reaction (acid + base/alkali → salt + water).' },
+            { id: 's43', text: 'What is <strong>exothermic</strong>?', marks: 2, type: 'text', answers: ['Releases heat', 'Releases energy', 'Releases energy to surroundings', 'Temperature increases', 'releases energy'], explanation: 'Exothermic reactions release energy (usually heat) to the surroundings, causing temperature to rise.' },
+            { id: 's44', text: 'What is <strong>endothermic</strong>?', marks: 2, type: 'text', answers: ['Absorbs heat', 'Absorbs energy', 'Takes in energy from surroundings', 'Temperature decreases', 'absorbs energy'], explanation: 'Endothermic reactions absorb energy from the surroundings, causing temperature to fall.' },
+            { id: 's45', text: 'What is a <strong>displacement reaction</strong>? Give an example.', marks: 3, type: 'text', checkText: true, explanation: 'A displacement reaction is when a more reactive metal displaces a less reactive metal from its compound. Example: Zn + CuSO₄ → ZnSO₄ + Cu (zinc displaces copper).' },
+            { id: 's46', text: 'What is <strong>electrolysis</strong>?', marks: 3, type: 'text', checkText: true, explanation: 'Electrolysis is using electricity to break down (decompose) an ionic compound into its elements when molten or dissolved in water.' },
+            { id: 's47', text: 'What is produced at the <strong>cathode</strong> during electrolysis?', marks: 2, type: 'text', answers: ['Metal or hydrogen', 'metal or hydrogen gas', 'Metal (if less reactive than H) or hydrogen'], explanation: 'At the cathode (negative electrode): metal is produced if the metal is less reactive than hydrogen; otherwise hydrogen gas is produced.' },
+            { id: 's48', text: 'What is the <strong>reactivity series</strong>?', marks: 3, type: 'text', checkText: true, explanation: 'The reactivity series is a list of metals arranged in order of decreasing reactivity: potassium, sodium, calcium, magnesium, aluminium, carbon, zinc, iron, tin, lead, hydrogen, copper, silver, gold.' },
+            { id: 's49', text: 'Complete: <strong>Iron + copper sulfate →</strong> ?', marks: 2, type: 'text', answers: ['Iron sulfate + copper', 'Fe + CuSO4 -> FeSO4 + Cu', 'Iron sulfate and copper', 'FeSO4 + Cu'], explanation: 'Fe + CuSO₄ → FeSO₄ + Cu (iron displaces copper because it is more reactive).' },
+            { id: 's50', text: 'What is <strong>crude oil</strong>?', marks: 2, type: 'text', answers: ['Mixture of hydrocarbons', 'A mixture of hydrocarbons', 'Mixture of hydrocarbons'], explanation: 'Crude oil is a mixture of hydrocarbons (compounds containing only hydrogen and carbon).' },
+            { id: 's51', text: 'Which <strong>fraction</strong> of crude oil has the longest chain length?', marks: 2, type: 'text', answers: ['Bitumen', 'bitumen', 'Bitumen (or asphalt)'], explanation: 'Bitumen has the longest hydrocarbon chains and is used for roads and roofing.' },
+            { id: 's52', text: 'What is the <strong>general formula</strong> for alkanes?', marks: 2, type: 'text', answers: ['CnH2n+2', 'CₙH₂ₙ₊₂', 'CnH2n+2'], explanation: 'Alkanes have the general formula CₙH₂ₙ₊₂.' },
+            { id: 's53', text: 'How many carbon atoms are in <strong>propane</strong>?', marks: 2, type: 'numeric', numeric: 3, tolerance: 0.1, explanation: 'Propane is C₃H₈ — it has 3 carbon atoms.' },
+            { id: 's54', text: 'What is <strong>polymerisation</strong>?', marks: 3, type: 'text', checkText: true, explanation: 'Polymerisation is the process of joining many small molecules (monomers) together to form a large molecule (polymer). E.g., ethene monomers → poly(ethene).' },
+            { id: 's55', text: 'Name a <strong>thermosoftening polymer</strong>.', marks: 2, type: 'text', answers: ['Poly(ethene)', 'Polyethylene', 'Polyethene', 'Polythene'], explanation: 'Poly(ethene) / polythene is a thermosoftening polymer — it softens when heated and can be remoulded.' },
+            { id: 's56', text: 'What is the equation linking <strong>force, mass and acceleration</strong>?', marks: 2, type: 'text', answers: ['F = ma', 'F=ma', 'Force = mass × acceleration', 'F = m × a'], explanation: 'F = ma (Force = mass × acceleration).' },
+            { id: 's57', text: 'A 10 kg object accelerates at 5 m/s². What force is needed?', marks: 3, type: 'numeric', numeric: 50, tolerance: 0.1, explanation: 'F = ma = 10 × 5 = 50 N.' },
+            { id: 's58', text: 'What is the equation for <strong>weight</strong>?', marks: 2, type: 'text', answers: ['W = mg', 'W=mg', 'Weight = mass × gravity', 'W = m × g'], explanation: 'W = mg (Weight = mass × gravitational field strength).' },
+            { id: 's59', text: 'What is the <strong>gravitational field strength</strong> on Earth (approximately)?', marks: 2, type: 'numeric', numeric: 9.8, tolerance: 0.3, explanation: 'Approximately 9.8 N/kg (sometimes taken as 10 N/kg).' },
+            { id: 's60', text: 'Calculate the weight of a 5 kg object on Earth. (g = 9.8 N/kg)', marks: 3, type: 'numeric', numeric: 49, tolerance: 0.2, explanation: 'W = mg = 5 × 9.8 = 49 N.' },
+            { id: 's61', text: 'What is the equation for <strong>velocity</strong> (or speed)?', marks: 2, type: 'text', answers: ['v = d/t', 'v=d/t', 'Velocity = distance ÷ time', 'v = distance/time'], explanation: 'v = d/t (velocity/speed = distance ÷ time).' },
+            { id: 's62', text: 'A car travels 100 m in 5 seconds. What is its speed?', marks: 2, type: 'numeric', numeric: 20, tolerance: 0.1, explanation: 'v = d/t = 100/5 = 20 m/s.' },
+            { id: 's63', text: 'What is the equation for <strong>kinetic energy</strong>?', marks: 3, type: 'text', answers: ['KE = ½mv²', 'KE=½mv²', 'KE = 1/2 mv²', '½mv²'], explanation: 'KE = ½mv² (Kinetic Energy = ½ × mass × velocity²).' },
+            { id: 's64', text: 'Calculate the kinetic energy of a 10 kg object moving at 3 m/s.', marks: 3, type: 'numeric', numeric: 45, tolerance: 0.2, explanation: 'KE = ½ × 10 × 9 = 45 J.' },
+            { id: 's65', text: 'State <strong>Hooke\'s Law</strong>.', marks: 3, type: 'text', answers: ['F = kx', 'F=kx', 'Force = spring constant × extension', 'F = k × x'], explanation: 'F = kx (The extension of a spring is directly proportional to the force applied, provided the limit of proportionality is not exceeded).' },
+            { id: 's66', text: 'What is the <strong>unit of force</strong>?', marks: 2, type: 'text', answers: ['Newtons', 'Newtons (N)', 'N', 'newton'], explanation: 'Newtons (N).' },
+            { id: 's67', text: 'What is the <strong>unit of energy</strong>?', marks: 2, type: 'text', answers: ['Joules', 'Joules (J)', 'J', 'joule'], explanation: 'Joules (J).' },
+            { id: 's68', text: 'What is the <strong>unit of power</strong>?', marks: 2, type: 'text', answers: ['Watts', 'Watts (W)', 'W', 'watt'], explanation: 'Watts (W) — or Joules per second (J/s).' },
+            { id: 's69', text: 'What is 1 Watt equal to?', marks: 2, type: 'text', answers: ['1 Joule per second', '1 J/s', '1 joule/second'], explanation: '1 W = 1 J/s (1 Joule per second).' },
+            { id: 's70', text: 'What is the <strong>speed of light</strong> in a vacuum?', marks: 2, type: 'text', answers: ['3 × 10⁸ m/s', '3×10⁸ m/s', '300,000,000 m/s', '3 × 10^8 m/s', '300,000 km/s'], explanation: 'Approximately 3 × 10⁸ m/s (300,000 km/s).' },
+            { id: 's71', text: 'What type of wave is <strong>sound</strong>?', marks: 2, type: 'text', answers: ['Longitudinal', 'longitudinal', 'Longitudinal wave'], explanation: 'Sound is a longitudinal wave — particles vibrate parallel to the direction of wave travel.' },
+            { id: 's72', text: 'What type of wave is <strong>light</strong>?', marks: 2, type: 'text', answers: ['Transverse', 'transverse', 'Transverse wave'], explanation: 'Light is a transverse wave — particles vibrate perpendicular to the direction of wave travel.' },
+            { id: 's73', text: 'What is the equation for <strong>wave speed</strong>?', marks: 2, type: 'text', answers: ['v = fλ', 'v=fλ', 'Wave speed = frequency × wavelength', 'v = f × λ'], explanation: 'v = fλ (wave speed = frequency × wavelength).' },
+            { id: 's74', text: 'A wave has frequency 50 Hz and wavelength 2 m. Calculate its speed.', marks: 3, type: 'numeric', numeric: 100, tolerance: 0.1, explanation: 'v = fλ = 50 × 2 = 100 m/s.' },
+            { id: 's75', text: 'What is <strong>frequency</strong> measured in?', marks: 2, type: 'text', answers: ['Hertz', 'Hertz (Hz)', 'Hz', 'hertz'], explanation: 'Hertz (Hz) — number of waves per second.' },
+            { id: 's76', text: 'State the <strong>principle of conservation of energy</strong>.', marks: 3, type: 'text', checkText: true, explanation: 'Energy cannot be created or destroyed, only transferred from one form to another. The total energy in a closed system remains constant.' },
+            { id: 's77', text: 'Name the <strong>three states of matter</strong>.', marks: 2, type: 'text', answers: ['Solid, liquid, gas', 'solid, liquid, gas', 'Solid, liquid and gas', 'solid liquid gas'], explanation: 'Solid, liquid, and gas.' },
+            { id: 's78', text: 'What happens to <strong>particles</strong> when a substance is heated?', marks: 2, type: 'text', answers: ['They gain kinetic energy', 'They gain energy', 'They move/vibrate more', 'They gain kinetic energy and move more'], explanation: 'When heated, particles gain kinetic energy and vibrate (in solids) or move faster (in liquids and gases).' },
+            { id: 's79', text: 'Define <strong>density</strong>.', marks: 2, type: 'text', answers: ['Mass per unit volume', 'Mass/volume', 'Mass per volume', 'mass ÷ volume'], explanation: 'Density = mass ÷ volume (ρ = m/V).' },
+            { id: 's80', text: 'State the <strong>principle of moments</strong>.', marks: 3, type: 'text', checkText: true, explanation: 'For an object in equilibrium, the sum of clockwise moments about any point equals the sum of anticlockwise moments about that point. (Moment = force × perpendicular distance from pivot).' },
+            { id: 's81', text: 'Calculate the <strong>moment</strong> of a 10 N force applied 0.5 m from a pivot.', marks: 2, type: 'numeric', numeric: 5, tolerance: 0.1, explanation: 'Moment = F × d = 10 × 0.5 = 5 Nm.' },
+            { id: 's82', text: 'Define <strong>terminal velocity</strong>.', marks: 3, type: 'text', checkText: true, explanation: 'Terminal velocity is the constant speed reached by a falling object when the drag force equals the weight, resulting in zero net force and no further acceleration.' },
+            { id: 's83', text: 'What is the equation relating <strong>force and momentum</strong>?', marks: 2, type: 'text', answers: ['F = Δp/Δt', 'F = change in momentum / time', 'Force = rate of change of momentum'], explanation: 'F = Δp/Δt (Force = change in momentum ÷ time taken).' },
+            { id: 's84', text: 'What is <strong>1 electronvolt (eV)</strong> approximately in Joules?', marks: 2, type: 'text', answers: ['1.6 × 10⁻¹⁹ J', '1.6*10^-19 J', '1.6 × 10^-19 J', '1.6e-19 J'], explanation: '1 eV ≈ 1.6 × 10⁻¹⁹ Joules.' },
+            { id: 's85', text: 'Define <strong>half-life</strong>.', marks: 3, type: 'text', checkText: true, explanation: 'Half-life is the time taken for half the radioactive nuclei in a sample to decay, or for the count rate/activity to fall to half its initial value.' },
+            { id: 's86', text: 'A radioactive isotope has a half-life of 5 days. How long until 1/8 of the original amount remains?', marks: 2, type: 'numeric', numeric: 15, tolerance: 0.1, explanation: '1/2 → 1/4 → 1/8 = 3 half-lives. 3 × 5 = 15 days.' },
+            { id: 's87', text: 'Name the three <strong>types of nuclear radiation</strong>.', marks: 2, type: 'text', answers: ['Alpha, beta, gamma', 'Alpha, Beta, Gamma', 'α, β, γ', 'alpha beta gamma'], explanation: 'Alpha (α) particles, beta (β) particles, and gamma (γ) rays.' },
+            { id: 's88', text: 'Which type of radiation is the <strong>most penetrating</strong>?', marks: 2, type: 'text', answers: ['Gamma', 'gamma', 'Gamma radiation', 'γ'], explanation: 'Gamma radiation is the most penetrating (can be stopped by thick lead or concrete).' },
+            { id: 's89', text: 'What is the <strong>density</strong> of water (approximately)?', marks: 2, type: 'numeric', numeric: 1000, tolerance: 10, explanation: 'Approximately 1000 kg/m³ (or 1 g/cm³).' },
+            { id: 's90', text: 'An object weighs 20 N in air and 12 N when submerged in water. What is the <strong>upward force (upthrust)</strong>?', marks: 2, type: 'numeric', numeric: 8, tolerance: 0.1, explanation: 'Upthrust = weight in air - weight in water = 20 - 12 = 8 N.' }
+        ];
+
+        // ==================== ENGLISH QUESTION BANK ====================
+        const englishQuestionBank = [
+            { id: 'e1', text: 'What does the word <strong>"melancholy"</strong> mean?', marks: 2, type: 'text', answers: ['Sadness', 'sadness', 'Sad', 'gloominess', 'depression', 'pensive sadness'], explanation: 'Melancholy means a feeling of pensive sadness, typically with no obvious cause.' },
+            { id: 'e2', text: 'What does <strong>"benevolent"</strong> mean?', marks: 2, type: 'text', answers: ['Kind', 'kindly', 'Generous', 'well-meaning', 'kind'], explanation: 'Benevolent means well-meaning, kindly, and generous.' },
+            { id: 'e3', text: 'What is <strong>"juxtaposition"</strong>?', marks: 3, type: 'text', answers: ['Placing contrasting things together', 'contrasting elements side by side', 'contrasting ideas placed close together', 'Placing opposites near each other'], explanation: 'Juxtaposition is placing contrasting elements side by side to highlight their differences.' },
+            { id: 'e4', text: 'What is a <strong>metaphor</strong>?', marks: 3, type: 'text', answers: ['Direct comparison without like/as', 'Saying something IS something else', 'Comparing two things directly', 'Description of one thing as another'], explanation: 'A metaphor describes something as if it were something else, without using "like" or "as".' },
+            { id: 'e5', text: 'What is a <strong>simile</strong>?', marks: 2, type: 'text', answers: ['Comparison using like/as', 'Comparison with "like" or "as"', 'Comparing using like or as'], explanation: 'A simile compares two things using "like" or "as".' },
+            { id: 'e6', text: 'What is <strong>personification</strong>?', marks: 3, type: 'text', answers: ['Giving human qualities to non-human things', 'Attributing human characteristics to objects/animals', 'Human traits given to non-humans'], explanation: 'Personification is giving human characteristics, emotions, or behaviour to non-human things.' },
+            { id: 'e7', text: 'What is <strong>alliteration</strong>?', marks: 2, type: 'text', answers: ['Repeating initial consonant sounds', 'Repetition of consonant sounds at start of words', 'Same sound at beginning of nearby words'], explanation: 'Alliteration is the repetition of the same consonant sound at the beginning of nearby words (e.g., "silent sea").' },
+            { id: 'e8', text: 'What is <strong>sibilance</strong>?', marks: 3, type: 'text', answers: ['Repetition of s/sh sounds', 'Hissing sounds', 'Repetition of "s" and "sh" sounds'], explanation: 'Sibilance is the repetition of soft hissing sounds, especially "s" and "sh" (e.g., "silver shells silently sliding").' },
+            { id: 'e9', text: 'What is an <strong>oxymoron</strong>? Give an example.', marks: 3, type: 'text', checkText: true, explanation: 'An oxymoron is a figure of speech combining contradictory terms. Examples: "deafening silence", "bittersweet", "open secret", "living death".' },
+            { id: 'e10', text: 'What is the <strong>effect</strong> of using short, abrupt sentences?', marks: 3, type: 'text', checkText: true, explanation: 'Short sentences create pace, tension, urgency, or emphasis. They can make writing feel dramatic, urgent, or forceful. Often used in action scenes or to highlight important points.' },
+            { id: 'e11', text: 'What is the <strong>effect</strong> of using long, complex sentences?', marks: 3, type: 'text', checkText: true, explanation: 'Long sentences can create a flowing, descriptive feel. They may slow the pace, show complex thoughts, build atmosphere, or create a sense of overwhelm or detail.' },
+            { id: 'e12', text: 'What does <strong>"show, don\'t tell"</strong> mean in creative writing?', marks: 3, type: 'text', checkText: true, explanation: 'It means using descriptive details, actions, sensations, and imagery to let readers experience the scene rather than simply stating emotions or facts. E.g., "Her hands trembled and she couldn\'t meet his eyes" instead of "She was nervous".' },
+            { id: 'e13', text: 'Define <strong>tone</strong> in a text.', marks: 2, type: 'text', answers: ['Author\'s attitude', 'The mood or attitude of the writer', 'The attitude conveyed', 'Tone is the writer\'s attitude'], explanation: 'Tone is the author\'s attitude toward the subject or audience, conveyed through word choice, style, and perspective.' },
+            { id: 'e14', text: 'Define <strong>mood</strong> in a text.', marks: 2, type: 'text', answers: ['Atmosphere or feeling', 'The atmosphere created', 'Feeling evoked in reader', 'Atmosphere'], explanation: 'Mood is the atmosphere or emotional feeling created in the reader by the text.' },
+            { id: 'e15', text: 'Name three types of <strong>noun</strong>.', marks: 2, type: 'text', answers: ['Common, proper, abstract', 'common, proper, abstract', 'Common proper abstract', 'Common, Proper, Abstract'], explanation: 'Common nouns (general things), proper nouns (specific names), and abstract nouns (ideas/feelings).' },
+            { id: 'e16', text: 'What is a <strong>verb</strong>?', marks: 2, type: 'text', answers: ['Action or doing word', 'Action word', 'Doing word', 'Action or state'], explanation: 'A verb is a word that expresses an action, occurrence, or state of being.' },
+            { id: 'e17', text: 'What is an <strong>adjective</strong>?', marks: 2, type: 'text', answers: ['Describing word', 'Describes a noun', 'Word that describes', 'Adjective modifies a noun'], explanation: 'An adjective describes or modifies a noun (e.g., "red" in "red car").' },
+            { id: 'e18', text: 'What is an <strong>adverb</strong>?', marks: 2, type: 'text', answers: ['Describes a verb', 'Describes how/when/where', 'Modifies a verb', 'Word that modifies'], explanation: 'An adverb modifies a verb, adjective, or another adverb — often showing how, when, where, or to what extent.' },
+            { id: 'e19', text: 'What is the <strong>PEE</strong> paragraph structure?', marks: 3, type: 'text', answers: ['Point, Evidence, Explanation', 'Point Evidence Explanation', 'Point, Evidence, Explain', 'Point evidence explain'], explanation: 'PEE = Point (make a claim), Evidence (quote or example), Explanation (analyse how the evidence supports the point and its effects).' },
+            { id: 'e20', text: 'What are the <strong>three parts</strong> of a paragraph?', marks: 3, type: 'text', answers: ['Topic sentence, supporting details, concluding sentence', 'Topic sentence, evidence, conclusion', 'Introduction, body, conclusion'], explanation: 'A paragraph typically has: a topic sentence (introduces the main idea), supporting details/evidence, and a concluding sentence (wraps up or links forward).' },
+            { id: 'e21', text: 'What should the <strong>introduction</strong> of an essay include?', marks: 3, type: 'text', checkText: true, explanation: 'An introduction should include: a hook to engage the reader, some background/context about the topic, and a clear thesis statement outlining the main argument or points to be discussed.' },
+            { id: 'e22', text: 'What should the <strong>conclusion</strong> of an essay include?', marks: 3, type: 'text', checkText: true, explanation: 'The conclusion should: summarise the main points made in the essay, restate the thesis in different words, and leave a final impression or thought for the reader. It should NOT introduce new ideas.' },
+            { id: 'e23', text: 'What is a <strong>thesis statement</strong>?', marks: 3, type: 'text', checkText: true, explanation: 'A thesis statement is a clear, concise sentence (usually in the introduction) that states the main argument, position, or purpose of the essay. It tells the reader what the essay will argue or explore.' },
+            { id: 'e24', text: 'What is <strong>imagery</strong> in writing?', marks: 2, type: 'text', answers: ['Vivid descriptive language', 'Language that creates mental images', 'Descriptive sensory language', 'Visual descriptive words'], explanation: 'Imagery is vivid descriptive language that appeals to the senses and creates vivid mental pictures in the reader\'s mind.' },
+            { id: 'e25', text: 'What is <strong>sensory language</strong>?', marks: 3, type: 'text', answers: ['Language appealing to the five senses', 'Words describing sight, sound, smell, touch, taste', 'Language using sensory details'], explanation: 'Sensory language describes experiences using the five senses: sight, sound, smell, touch, and taste, making writing more vivid and immersive.' },
+            { id: 'e26', text: 'What is <strong>hyperbole</strong>?', marks: 2, type: 'text', answers: ['Exaggeration', 'Deliberate exaggeration', 'Extreme exaggeration for effect', 'Over-exaggeration'], explanation: 'Hyperbole is deliberate and extreme exaggeration used for emphasis or effect (e.g., "I\'ve told you a million times").' },
+            { id: 'e27', text: 'What is a <strong>rhetorical question</strong>?', marks: 2, type: 'text', answers: ['Question not expecting answer', 'Question asked for effect', 'Question with no answer expected', 'A question for effect'], explanation: 'A rhetorical question is asked for effect or to make a point, not to get an answer. The answer is often obvious.' },
+            { id: 'e28', text: 'What is <strong>repetition</strong> and what is its effect?', marks: 3, type: 'text', checkText: true, explanation: 'Repetition is deliberately repeating words, phrases, or structures. Its effects include: emphasising key ideas, creating rhythm, building tension or emotion, making phrases memorable, and reinforcing a message.' },
+            { id: 'e29', text: 'What is a <strong>theme</strong> in literature?', marks: 2, type: 'text', answers: ['Central idea or message', 'Main idea', 'Underlying message', 'Recurring idea', 'The big idea'], explanation: 'A theme is the central idea, message, or lesson explored in a literary work. It is usually a universal idea about life or human nature.' },
+            { id: 'e30', text: 'What is the <strong>setting</strong> of a story?', marks: 2, type: 'text', answers: ['Time and place', 'Where and when the story takes place', 'Location and time period', 'Time and place'], explanation: 'Setting is the time and place where a story occurs, including the social and historical context.' },
+            { id: 'e31', text: 'Define <strong>plot</strong> in literature.', marks: 2, type: 'text', answers: ['Sequence of events', 'The events of the story', 'What happens in the story', 'Story events'], explanation: 'Plot is the sequence of events that make up a story, including how they are connected by cause and effect.' },
+            { id: 'e32', text: 'Name the <strong>five stages</strong> of narrative structure (Freytag\'s pyramid).', marks: 3, type: 'text', answers: ['Exposition, rising action, climax, falling action, resolution', 'Exposition rising action climax falling action resolution', 'Exposition, Rising Action, Climax, Falling Action, Resolution', 'Exposition, rising action, climax, falling action, denouement'], explanation: '1. Exposition (introduction), 2. Rising action (build-up of conflict), 3. Climax (peak/turning point), 4. Falling action (aftermath), 5. Resolution (ending/ denouement).' },
+            { id: 'e33', text: 'What is a <strong>protagonist</strong>?', marks: 2, type: 'text', answers: ['Main character', 'Central character', 'Leading character', 'Main character in a story'], explanation: 'The protagonist is the main character around whom the story revolves.' },
+            { id: 'e34', text: 'What is an <strong>antagonist</strong>?', marks: 2, type: 'text', answers: ['Character who opposes protagonist', 'The opposing character', 'Rival of the main character', 'Character opposing the protagonist'], explanation: 'The antagonist is the character or force that opposes the protagonist, creating conflict.' },
+            { id: 'e35', text: 'What is <strong>foreshadowing</strong>?', marks: 3, type: 'text', answers: ['Hints at future events', 'Clues about what will happen', 'Hints or clues about later events', 'Pre-warning of future'], explanation: 'Foreshadowing is hints or clues about what will happen later in the story, building anticipation or preparing the reader.' },
+            { id: 'e36', text: 'What is <strong>irony</strong>? Name two types.', marks: 3, type: 'text', checkText: true, explanation: 'Irony is when there is a contrast between expectations and reality. Types: 1) Verbal irony (saying the opposite of what is meant), 2) Situational irony (outcome is opposite to what was expected), 3) Dramatic irony (audience knows more than the characters).' },
+            { id: 'e37', text: 'What is <strong>symbolism</strong>?', marks: 3, type: 'text', answers: ['Using symbols to represent ideas', 'Objects representing deeper meanings', 'Using objects/colour to represent abstract ideas', 'Symbols with deeper meaning'], explanation: 'Symbolism is the use of symbols (objects, colours, characters, etc.) to represent abstract ideas or concepts beyond their literal meaning.' },
+            { id: 'e38', text: 'What is <strong>contrast</strong> in writing?', marks: 2, type: 'text', answers: ['Difference between things', 'Juxtaposing differences', 'Highlighting differences', 'Showing how things differ'], explanation: 'Contrast is showing differences between two or more things (characters, settings, ideas) to highlight their distinct qualities.' },
+            { id: 'e39', text: 'What does <strong>"analyse"</strong> mean in English?', marks: 2, type: 'text', answers: ['Examine in detail', 'Break down and examine', 'Study closely to understand', 'Examine methodically'], explanation: 'To analyse means to examine something in detail, breaking it down to understand its meaning, effect, and significance.' },
+            { id: 'e40', text: 'What does <strong>"evaluate"</strong> mean?', marks: 2, type: 'text', answers: ['Judge the value/quality', 'Assess worth or importance', 'Make a judgement', 'Judge'], explanation: 'To evaluate means to judge or determine the value, quality, significance, or effectiveness of something, often weighing strengths and weaknesses.' },
+            { id: 'e41', text: 'What is the <strong>structure</strong> of a strong argument?', marks: 3, type: 'text', checkText: true, explanation: 'A strong argument has: 1) A clear thesis/position, 2) Logical points organised in order, 3) Evidence/examples for each point, 4) Explanation of how evidence supports the point, 5) Consideration of counterarguments, 6) A strong conclusion that reinforces the thesis.' },
+            { id: 'e42', text: 'What are <strong>emotive words</strong> and what is their effect?', marks: 3, type: 'text', checkText: true, explanation: 'Emotive words are words chosen to provoke an emotional response in the reader (e.g., "slaughtered" instead of "killed", "freedom" instead of "choice"). Their effect is to persuade, create empathy, anger, sympathy, or urgency.' },
+            { id: 'e43', text: 'What is <strong>direct address</strong> and what is its effect?', marks: 3, type: 'text', checkText: true, explanation: 'Direct address is when the writer speaks directly to the reader using "you" or "your". Its effect is to engage the reader directly, make them feel involved or responsible, create intimacy, or make the message more personal and persuasive.' },
+            { id: 'e44', text: 'What is <strong>statistics</strong> as a persuasive technique?', marks: 2, type: 'text', answers: ['Facts/figures to persuade', 'Using numbers and data', 'Quantitative evidence'], explanation: 'Using statistics (numbers, percentages, data) to persuade by providing factual, seemingly objective evidence that lends credibility and authority to an argument.' },
+            { id: 'e45', text: 'What is <strong>expert opinion</strong> as a persuasive technique?', marks: 2, type: 'text', answers: ['Quoting experts to persuade', 'Using expert authority', 'Citing experts/professionals'], explanation: 'Quoting or referencing experts, professionals, or authorities to lend credibility and weight to an argument by appealing to authority.' },
+            { id: 'e46', text: 'What is the <strong>rule of three</strong>?', marks: 2, type: 'text', answers: ['Three similar words/phrases together', 'Group of three', 'Three items in a list'], explanation: 'The rule of three is using three words, phrases, or ideas together for emphasis and rhythm. It is memorable and satisfying (e.g., "Life, liberty, and the pursuit of happiness").' },
+            { id: 'e47', text: 'What is <strong>inclusive language</strong>?', marks: 2, type: 'text', answers: ['Language that includes everyone', 'Language using "we" and "us"', 'Language that brings reader in'], explanation: 'Inclusive language uses words like "we", "us", "our" to make the reader feel included and create a sense of shared identity or common purpose.' },
+            { id: 'e48', text: 'What is <strong>allusion</strong>?', marks: 3, type: 'text', answers: ['Reference to something else', 'Reference to a well-known person/event/work', 'Subtle reference to culture/history/literature'], explanation: 'An allusion is a brief, indirect reference to a person, place, event, literary work, or cultural element that the writer expects the reader to recognise.' },
+            { id: 'e49', text: 'What is the purpose of a <strong>glossary</strong>?', marks: 2, type: 'text', answers: ['Define specialised terms', 'List of definitions', 'Explain technical vocabulary'], explanation: 'A glossary provides definitions of specialised, technical, or unfamiliar terms used in a text, helping readers understand the content.' },
+            { id: 'e50', text: 'What is the purpose of <strong>headings and subheadings</strong> in non-fiction texts?', marks: 2, type: 'text', answers: ['Organise content', 'Divide text into sections', 'Help navigate the text', 'Structure and organise'], explanation: 'Headings and subheadings organise content into clear sections, help readers navigate and find information quickly, and show the structure of the text.' }
+        ];
+
+        // ==================== INITIALISATION ====================
+        function shuffleArray(arr) {
+            const newArr = [...arr];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        }
+
+        function initMathsPaper() {
+            currentMathsQuestions = shuffleArray([...mathsQuestionBank]).slice(0, 30);
+            mathsAnswers = {};
+            renderQuestions('maths');
+            updateProgress('maths');
+        }
+
+        function newMathsPaper() {
+            initMathsPaper();
+        }
+
+        function clearMathsAnswers() {
+            mathsAnswers = {};
+            document.querySelectorAll('#maths-questions input').forEach(inp => {
+                inp.value = '';
+                inp.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('#maths-questions .explanation').forEach(expl => {
+                expl.classList.remove('show');
+                expl.innerHTML = '';
+            });
+            updateProgress('maths');
+        }
+
+        function initSciencePaper() {
+            currentScienceQuestions = shuffleArray([...scienceQuestionBank]).slice(0, 25);
+            scienceAnswers = {};
+            renderQuestions('science');
+            updateProgress('science');
+        }
+
+        function newSciencePaper() {
+            initSciencePaper();
+        }
+
+        function clearScienceAnswers() {
+            scienceAnswers = {};
+            document.querySelectorAll('#science-questions input').forEach(inp => {
+                inp.value = '';
+                inp.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('#science-questions .explanation').forEach(expl => {
+                expl.classList.remove('show');
+                expl.innerHTML = '';
+            });
+            updateProgress('science');
+        }
+
+        function initEnglishPaper() {
+            currentEnglishQuestions = shuffleArray([...englishQuestionBank]).slice(0, 20);
+            englishAnswers = {};
+            renderQuestions('english');
+            updateProgress('english');
+        }
+
+        function newEnglishPaper() {
+            initEnglishPaper();
+        }
+
+        function clearEnglishAnswers() {
+            englishAnswers = {};
+            document.querySelectorAll('#english-questions input').forEach(inp => {
+                inp.value = '';
+                inp.classList.remove('correct', 'incorrect');
+            });
+            document.querySelectorAll('#english-questions .explanation').forEach(expl => {
+                expl.classList.remove('show');
+                expl.innerHTML = '';
+            });
+            updateProgress('english');
+        }
+
+        function renderQuestions(subject) {
+            const containerId = `${subject}-questions`;
+            const questions = subject === 'maths' ? currentMathsQuestions : subject === 'science' ? currentScienceQuestions : currentEnglishQuestions;
+            
+            const accentColor = subject === 'science' ? 'var(--accent-science)' : subject === 'english' ? 'var(--accent-english)' : 'var(--accent-maths)';
+            
+            let html = '';
+            questions.forEach((q, index) => {
+                const subjectClass = subject === 'science' ? 'science-question' : subject === 'english' ? 'english-question' : '';
+                
+                html += `
+                    <div class="question ${subjectClass}" id="${q.id}-container">
+                        <div class="question-number" style="background: ${accentColor}">
+                            Q${index + 1}
+                            <span class="marks">[${q.marks} marks]</span>
+                        </div>
+                        <p class="question-text">${q.text}</p>
+                `;
+                
+                if (q.parts) {
+                    q.parts.forEach(part => {
+                        html += `
+                            <div class="multi-part">
+                                <span class="part-label">${part.label}</span>
+                                <input type="text" id="${part.id}" placeholder="Type your answer..." oninput="handleAnswer('${subject}', '${part.id}', this.value)">
+                            </div>
+                        `;
+                    });
+                } else {
+                    const inputType = q.type === 'numeric' ? 'number' : 'text';
+                    html += `
+                        <div class="input-group">
+                            <label class="input-label">Your answer:</label>
+                            <input type="${inputType}" id="${q.id}" placeholder="Type your answer..." oninput="handleAnswer('${subject}', '${q.id}', this.value)">
+                        </div>
+                    `;
+                }
+                
+                html += `
+                        <div class="explanation" id="expl-${q.id}"></div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById(containerId).innerHTML = html;
+        }
+
+        function handleAnswer(subject, id, value) {
+            const answers = subject === 'maths' ? mathsAnswers : subject === 'science' ? scienceAnswers : englishAnswers;
+            answers[id] = value;
+            
+            if (subject === 'maths') updateProgress('maths');
+            if (subject === 'science') updateProgress('science');
+            if (subject === 'english') updateProgress('english');
+        }
+
+        function updateProgress(subject) {
+            const answers = subject === 'maths' ? mathsAnswers : subject === 'science' ? scienceAnswers : englishAnswers;
+            const questions = subject === 'maths' ? currentMathsQuestions : subject === 'science' ? currentScienceQuestions : currentEnglishQuestions;
+            
+            let count = 0;
+            questions.forEach(q => {
+                if (q.parts) {
+                    q.parts.forEach(part => {
+                        if (answers[part.id] && answers[part.id].trim()) count++;
+                    });
+                } else {
+                    if (answers[q.id] && answers[q.id].trim()) count++;
+                }
+            });
+            
+            document.querySelector(`#${subject}-questions`).parentElement.querySelector('.progress-info .progress-count span')?.remove();
+        }
+
+        function checkAnswer(id, userAnswer, answersData) {
+            if (!userAnswer || !userAnswer.trim()) return null;
+            
+            const norm = userAnswer.trim().toLowerCase().replace(/\s+/g, ' ');
+            
+            // Check all answer patterns
+            for (let pat of (answersData.answers || [])) {
+                if (norm === pat.toLowerCase()) return true;
+            }
+            
+            // Check exact numeric
+            if (answersData.exact !== undefined) {
+                const n = parseFloat(norm);
+                if (!isNaN(n) && n === answersData.exact) return true;
+            }
+            
+            // Check numeric with tolerance
+            if (answersData.numeric !== undefined) {
+                const n = parseFloat(norm);
+                if (!isNaN(n) && Math.abs(n - answersData.numeric) <= (answersData.tolerance || 0.001)) return true;
+            }
+            
+            // Check text content
+            if (answersData.checkText) {
+                const keywords = answersData.explanation.toLowerCase().split(' ').filter(w => w.length > 4);
+                const words = norm.split(' ');
+                let matches = 0;
+                keywords.forEach(kw => {
+                    if (words.some(w => w.includes(kw) || kw.includes(w))) matches++;
+                });
+                return matches >= 2;
+            }
+            
+            return false;
+        }
+
+        function markExam(subject) {
+            const questions = subject === 'maths' ? currentMathsQuestions : subject === 'science' ? currentScienceQuestions : currentEnglishQuestions;
+            const answers = subject === 'maths' ? mathsAnswers : subject === 'science' ? scienceAnswers : englishAnswers;
+            
+            let total = 0, max = 0, correct = 0, totalQ = 0;
+            let listHTML = '';
+            
+            questions.forEach(q => {
+                if (q.parts) {
+                    q.parts.forEach(part => {
+                        const userAns = answers[part.id] || '';
+                        const isAnswered = userAns.trim() !== '';
+                        const isCorrect = checkAnswer(part.id, userAns, part);
+                        const marks = part.marks;
+                        
+                        totalQ++;
+                        max += marks;
+                        
+                        if (isAnswered) {
+                            if (isCorrect) {
+                                total += marks;
+                                correct++;
+                            }
+                        }
+                        
+                        const status = isAnswered ? (isCorrect ? 'correct' : 'incorrect') : 'empty';
+                        const icon = status === 'correct' ? '✅' : (status === 'incorrect' ? '❌' : '○');
+                        
+                        listHTML += `<div class="question-list-item">
+                            <span class="q-num">${part.id}</span>
+                            <span class="q-status ${status}">${icon}</span>
+                            <span class="q-marks">[${marks}]</span>
+                        </div>`;
+                        
+                        const explId = `expl-${part.id}`;
+                        const expl = document.getElementById(explId);
+                        if (expl && !expl.classList.contains('show')) {
+                            const statusClass = isCorrect ? 'correct' : 'incorrect';
+                            const statusText = isCorrect ? '✓ Correct!' : '✗ Not quite';
+                            expl.innerHTML = `<span class="${statusClass}">${statusText}</span><br><strong>Answer:</strong> ${part.explanation}<div class="detail">${part.explanation}</div>`;
+                            expl.classList.add('show');
+                            const container = document.getElementById(`${part.id}-container`);
+                            if (container) container.classList.add(status);
+                        }
+                    });
+                } else {
+                    const userAns = answers[q.id] || '';
+                    const isAnswered = userAns.trim() !== '';
+                    const isCorrect = checkAnswer(q.id, userAns, q);
+                    const marks = q.marks;
+                    
+                    totalQ++;
+                    max += marks;
+                    
+                    if (isAnswered) {
+                        if (isCorrect) {
+                            total += marks;
+                            correct++;
+                        }
+                    }
+                    
+                    const status = isAnswered ? (isCorrect ? 'correct' : 'incorrect') : 'empty';
+                    const icon = status === 'correct' ? '✅' : (status === 'incorrect' ? '❌' : '○');
+                    
+                    listHTML += `<div class="question-list-item">
+                        <span class="q-num">${q.id}</span>
+                        <span class="q-status ${status}">${icon}</span>
+                        <span class="q-marks">[${marks}]</span>
+                    </div>`;
+                    
+                    const explId = `expl-${q.id}`;
+                    const expl = document.getElementById(explId);
+                    if (expl && !expl.classList.contains('show')) {
+                        const statusClass = isCorrect ? 'correct' : 'incorrect';
+                        const statusText = isCorrect ? '✓ Correct!' : '✗ Not quite';
+                        expl.innerHTML = `<span class="${statusClass}">${statusText}</span><br><strong>Answer:</strong> ${q.explanation}<div class="detail">${q.explanation}</div>`;
+                        expl.classList.add('show');
+                        const container = document.getElementById(`${q.id}-container`);
+                        if (container) container.classList.add(status);
+                    }
+                }
+            });
+            
+            const pct = Math.round((total / max) * 100);
+            const grade = getGrade(pct);
+            
+            document.getElementById('results-title').textContent = subject === 'maths' ? '🎉 Maths Exam Complete!' : subject === 'science' ? '🎉 Science Exam Complete!' : '🎉 English Exam Complete!';
+            document.getElementById('results-subtitle').textContent = 'Here\'s how you did!';
+            document.getElementById('results-percentage').textContent = pct + '%';
+            document.getElementById('results-marks').textContent = total;
+            document.getElementById('results-max').textContent = max;
+            document.getElementById('results-grade').className = 'grade-badge ' + (grade.cls || 'grade-3');
+            document.getElementById('results-grade').textContent = 'Grade ' + grade.grade;
+            document.getElementById('results-correct').textContent = correct;
+            document.getElementById('results-total-q').textContent = totalQ;
+            document.getElementById('results-icon').textContent = grade.icon;
+            document.getElementById('results-feedback').textContent = grade.msg;
+            document.getElementById('results-list').innerHTML = listHTML;
+            
+            document.getElementById('results-overlay').classList.add('active');
+        }
+
+        function getGrade(pct) {
+            if (pct >= 85) return { grade: '9', cls: 'grade-9', icon: '🌟', msg: 'Outstanding! You\'re working at Grade 9 level — exceptional understanding! Keep it up!' };
+            if (pct >= 75) return { grade: '8', cls: 'grade-8', icon: '🎉', msg: 'Excellent work! Very strong performance — just a few tweaks and you\'ll be flying!' };
+            if (pct >= 65) return { grade: '7', cls: 'grade-7', icon: '👏', msg: 'Great job! Solid Grade 7 understanding. Review mistakes and you\'ll do even better!' };
+            if (pct >= 55) return { grade: '6', cls: 'grade-6', icon: '👍', msg: 'Good effort! Strong foundation. Focus on areas where you lost marks.' };
+            if (pct >= 45) return { grade: '5', cls: 'grade-5', icon: '📚', msg: 'Decent start! Keep practising — you\'re building your skills. Identify weak areas and revise them.' };
+            if (pct >= 35) return { grade: '4', cls: 'grade-4', icon: '💪', msg: 'You\'re making progress! Go through the explanations and try again — you\'ll improve!' };
+            return { grade: '3', cls: 'grade-3', icon: '🔄', msg: 'Keep going! Every mistake is a learning opportunity. Work through the correct answers and try again — you\'ll get there!' };
+        }
+
+        function markMathsExam() { markExam('maths'); }
+        function markScienceExam() { markExam('science'); }
+        function markEnglishExam() { markExam('english'); }
+
+        function retryCurrentExam() {
+            document.getElementById('results-overlay').classList.remove('active');
+            if (currentSubject === 'maths') clearMathsAnswers();
+            else if (currentSubject === 'science') clearScienceAnswers();
+            else if (currentSubject === 'english') clearEnglishAnswers();
+        }
+
+        // Start with Maths
+        initMathsPaper();
+    </script>
+</body>
+</html>
